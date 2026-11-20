@@ -1,0 +1,3253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="artifact-type" content="narrative">
+<meta name="design-style" content="canopy">
+<title>The Wonderful World of Numbers — Number Town Storybook</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+
+  /* 1. Canopy :root tokens */
+  --background: #faf6ef;
+  --surface-container-low: #f0eae0;
+  --surface-container: #e8e0d2;
+  --surface-container-high: #ddd3c2;
+
+  --on-surface: #2a302b;
+  --on-surface-variant: #4a524b;
+
+  --outline: #737872;
+  --outline-variant: #cbc5b8;
+
+  --primary: #366948;
+  --on-primary: #ffffff;
+  --primary-container: #d8efe0;
+  --on-primary-container: #1f4d30;
+  --secondary: #5c635c;
+  --tertiary: #8f5822;
+  --tertiary-container: #f2d4a7;
+  --on-tertiary-container: #6e3f0c;
+  --error: #b83230;
+  --on-error: #ffffff;
+
+  --data-1: #366948;
+  --data-2: #8f5822;
+  --data-3: #a85438;
+  --data-4: #4b6b78;
+  --data-context: #b5b0a3;
+
+  --font-headline: 'Literata', serif;
+  --font-body: 'Nunito Sans', sans-serif;
+  --font-label: 'Geist Mono', monospace;
+
+  --rounded: 0.625rem;
+  --rounded-lg: 1rem;
+  --rounded-book: 1.375rem;
+  --rounded-full: 9999px;
+
+  --shadow-soft: 0 4px 20px rgb(42 48 43 / 0.06);
+  --shadow-soft-hover: 0 8px 28px rgb(42 48 43 / 0.11);
+  --shadow-book: 0 12px 36px rgb(42 48 43 / 0.09);
+  --border-soft: 1px solid rgb(203 197 184 / 0.72);
+  --border-dashed: 2px dashed rgb(143 88 34 / 0.4);
+  --focus-glow: 0 0 0 4px rgb(54 105 72 / 0.22);
+
+  /* 2. Shared foundation tokens */
+  --positive: #2d6a4f;
+  --positive-bg: #d8efe0;
+  --warning: #9c611b;
+  --warning-bg: #f8e5c2;
+  --error-bg: #fbe2e1;
+  --focus: #366948;
+
+  /* Type scale (Narrative) */
+  --display-size: clamp(2.1rem, 1.4rem + 2.8vw, 3.25rem);
+  --headline-size: clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem);
+  --subhead-size: clamp(1.15rem, 1.05rem + 0.45vw, 1.375rem);
+  --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  /* 3. Storybook illustration palette (all named tokens) */
+  --illus-sky: #dbe8ec;
+  --illus-sky-warm: #f5ebd6;
+  --illus-cloud: #fdfaf3;
+  --illus-meadow: #c8dfc4;
+  --illus-grass: #7da672;
+  --illus-leaf-dark: #285237;
+  --illus-mustard: #e6b84c;
+  --illus-mustard-soft: #f5df9d;
+  --illus-terracotta: #c45c3e;
+  --illus-terracotta-soft: #ecc1b2;
+  --illus-dusty-blue: #587b8c;
+  --illus-dusty-blue-soft: #c9dce4;
+  --illus-brown: #7a4e2d;
+  --illus-brown-light: #b5845c;
+  --illus-cream: #fcf8f0;
+  --illus-gold: #d99b26;
+  --illus-pink: #df8282;
+  --illus-white: #ffffff;
+  --illus-skin-lily: #f4cbb0;
+  --illus-skin-oliver: #e5b28a;
+  --illus-hair-lily: #7c3f23;
+  --illus-hair-oliver: #3a2b22;
+  --paper-wash: radial-gradient(circle at 18% 12%, rgb(242 212 167 / 0.24), transparent 52%),
+                radial-gradient(circle at 86% 88%, rgb(216 239 224 / 0.28), transparent 52%);
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  background-image: var(--paper-wash);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+header { position: static !important; }
+button, input, select, textarea { font-family: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.storybook-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-lg) var(--space-2xl);
+  display: grid;
+  gap: var(--space-lg);
+}
+.storybook-shell * { min-width: 0; }
+
+/* Masthead & Chapter Almanac Strip */
+.book-header {
+  display: grid;
+  gap: var(--space-md);
+  background: var(--surface-container-low);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-soft);
+}
+
+.book-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.book-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.book-title-mini {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.book-subtitle-mini {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tertiary);
+  margin: 0;
+}
+
+.header-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pill-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--illus-cream);
+  border: var(--border-soft);
+  border-radius: var(--rounded-full);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  min-height: 44px;
+}
+
+.pill-stat.is-highlight {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* Canopy Almanac Chapter Strip */
+.chapter-strip {
+  background: var(--illus-cream);
+  border-radius: var(--rounded);
+  padding: 0.625rem 0.875rem;
+  border: var(--border-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.chapter-strip-label {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.chapter-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.chapter-cell {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  font-weight: 600;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  border-radius: var(--rounded);
+  border: 1px solid transparent;
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+}
+.chapter-cell:hover {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  transform: translateY(-1px);
+}
+.chapter-cell.is-done {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+.chapter-cell.is-current {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Main Storybook Page Canvas */
+.storybook-page {
+  background: var(--illus-cream);
+  border-radius: var(--rounded-book);
+  border: var(--border-soft);
+  box-shadow: var(--shadow-book);
+  padding: var(--space-xl);
+  display: grid;
+  gap: var(--space-lg);
+  position: relative;
+  animation: pageTurnIn var(--dur-long) var(--ease-out);
+}
+
+@keyframes pageTurnIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  border-bottom: var(--border-soft);
+  padding-bottom: var(--space-md);
+}
+
+.page-kicker {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tertiary);
+  margin: 0 0 0.25rem;
+}
+
+.page-title {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: var(--headline-size);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.page-title.is-display {
+  font-size: var(--display-size);
+}
+
+.page-lead {
+  color: var(--on-surface-variant);
+  max-width: 65ch;
+  margin: 0.4rem 0 0;
+}
+
+.id-hint {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: var(--secondary);
+  font-style: italic;
+  margin-left: 0.25rem;
+}
+
+.sticker-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--rounded-full);
+  background: var(--surface-container-low);
+  border: var(--border-soft);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+}
+.sticker-status-pill.is-earned {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+/* Two-column / Adaptive Storybook Layouts */
+.spread-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.spread-grid.is-equal {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-md);
+}
+
+/* Canopy Cards */
+.card {
+  background: var(--surface-container-low);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  border: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+.card.is-leaf-highlight {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+.card.is-interactive {
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+.card.is-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft-hover);
+}
+.card.is-cream {
+  background: var(--background);
+  border: var(--border-soft);
+}
+
+.card-heading {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: var(--subhead-size);
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--rounded);
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.96rem;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:disabled { opacity: 0.48; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-soft);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--illus-leaf-dark);
+  box-shadow: var(--shadow-soft-hover);
+}
+
+.btn-secondary {
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-container-high);
+}
+
+.btn-warm {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+.btn-warm:hover:not(:disabled) {
+  background: var(--illus-mustard);
+}
+
+.btn-audio {
+  background: var(--illus-cream);
+  color: var(--primary);
+  border: var(--border-soft);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+}
+.btn-audio:hover:not(:disabled) {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+.btn-audio.is-speaking {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Prominent Bottom Page-Turn Bar */
+.page-turn-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  background: var(--surface-container-low);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-soft);
+}
+
+.btn-page-nav {
+  min-height: 52px;
+  padding: 0.75rem 1.35rem;
+  font-size: 1rem;
+  border-radius: var(--rounded);
+}
+
+.page-counter-badge {
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  background: var(--illus-cream);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-full);
+  border: var(--border-soft);
+}
+
+/* Illustration Frames */
+.illus-frame {
+  background: var(--illus-sky);
+  border-radius: var(--rounded-lg);
+  border: var(--border-soft);
+  overflow: hidden;
+  position: relative;
+}
+.illus-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.clickable-svg-item {
+  cursor: pointer;
+  transition: transform var(--dur-short) var(--ease-out), opacity var(--dur-short) var(--ease-out);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.clickable-svg-item:hover {
+  transform: scale(1.08);
+}
+.clickable-svg-item.is-counted {
+  filter: drop-shadow(0 0 6px var(--illus-gold));
+  transform: scale(1.1);
+}
+
+/* Speech Bubbles & Dialogue */
+.dialogue-stack {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.speech-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+.speech-row.is-right {
+  flex-direction: row-reverse;
+}
+
+.avatar-badge {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--rounded-full);
+  background: var(--tertiary-container);
+  border: 2px solid var(--outline-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.avatar-badge.is-green {
+  background: var(--primary-container);
+}
+
+.speech-bubble {
+  background: var(--background);
+  border: var(--border-soft);
+  border-radius: var(--rounded-lg);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-soft);
+  flex: 1;
+  display: grid;
+  gap: 0.35rem;
+}
+.speech-bubble.is-partner {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+.speech-speaker {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tertiary);
+  font-weight: 600;
+}
+.speech-text {
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Companion Selector */
+.companion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.companion-card {
+  background: var(--background);
+  border: 2px solid var(--outline-variant);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+}
+.companion-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+.companion-card.is-selected {
+  background: var(--primary-container);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Number Showcase & Interactive Tiles */
+.number-grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 0.45rem;
+}
+
+.num-chip {
+  min-height: 46px;
+  border-radius: var(--rounded);
+  border: var(--border-soft);
+  background: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+.num-chip:hover {
+  background: var(--tertiary-container);
+  transform: translateY(-1px);
+}
+.num-chip.is-active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.big-number-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+  background: var(--background);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  border: var(--border-soft);
+}
+
+.big-numeral {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 2.2rem + 2vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.number-word-title {
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.visual-count-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: var(--space-sm);
+}
+
+.count-token-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--rounded);
+  border: var(--border-soft);
+  background: var(--surface-container-low);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+}
+.count-token-btn:hover { transform: scale(1.08); }
+.count-token-btn.is-tapped {
+  background: var(--tertiary-container);
+  border-color: var(--tertiary);
+  transform: scale(1.08);
+}
+
+/* Tabs inside a chapter */
+.subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.subtab-btn {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-full);
+  border: var(--border-soft);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.subtab-btn.is-active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Feedback Banner */
+.feedback-banner {
+  border-radius: var(--rounded);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: 48px;
+}
+.feedback-banner.is-neutral {
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+.feedback-banner.is-success {
+  background: var(--positive-bg);
+  color: var(--on-primary-container);
+}
+.feedback-banner.is-try {
+  background: var(--warning-bg);
+  color: var(--on-tertiary-container);
+}
+
+/* Choice / Answer Buttons */
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.choice-btn {
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--rounded);
+  border: var(--border-soft);
+  background: var(--background);
+  color: var(--on-surface);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+.choice-btn:hover {
+  background: var(--tertiary-container);
+  transform: translateY(-1px);
+}
+.choice-btn.is-correct {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.choice-btn.is-wrong {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+/* Form Labels & Inputs */
+.field-group {
+  display: grid;
+  gap: 0.35rem;
+}
+.field-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--on-surface);
+}
+.text-input {
+  min-height: 44px;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--rounded);
+  border: 1px solid var(--outline);
+  background: var(--background);
+  color: var(--on-surface);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Bakery & Toy Shop Shelf Items */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(155px, 100%), 1fr));
+  gap: var(--space-sm);
+}
+.shop-item-card {
+  background: var(--background);
+  border: var(--border-soft);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.45rem;
+}
+.price-tag {
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--rounded-full);
+}
+
+/* Tens & Ones Blocks */
+.blocks-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  min-height: 96px;
+  padding: var(--space-md);
+  background: var(--background);
+  border-radius: var(--rounded);
+  border: var(--border-soft);
+}
+.ten-rod {
+  width: 24px;
+  height: 84px;
+  border-radius: 5px;
+  background: var(--primary);
+  border: 2px solid var(--illus-leaf-dark);
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+.ten-rod span {
+  border-bottom: 1px solid rgb(255 255 255 / 0.35);
+}
+.one-cube {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--illus-mustard);
+  border: 2px solid var(--tertiary);
+}
+
+/* Stickers Grid */
+.sticker-album {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--space-md);
+}
+.sticker-slot {
+  background: var(--background);
+  border: var(--border-dashed);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  opacity: 0.68;
+}
+.sticker-slot.is-unlocked {
+  border: 2px solid var(--primary);
+  background: var(--primary-container);
+  opacity: 1;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Gentle SVG Animations */
+@keyframes floatBird {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -6px); }
+}
+@keyframes gentleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.anim-float { animation: floatBird 4s var(--ease-in-out) infinite; }
+.anim-bob { animation: gentleBob 2.8s var(--ease-in-out) infinite; }
+
+/* Mobile & Container Adaptation */
+@media (max-width: 780px) {
+  .spread-grid, .spread-grid.is-equal {
+    grid-template-columns: 1fr;
+  }
+  .storybook-page {
+    padding: var(--space-lg);
+  }
+}
+
+@media (max-width: 640px) {
+  .storybook-shell {
+    padding: var(--space-sm);
+    gap: var(--space-md);
+  }
+  .storybook-page {
+    padding: var(--space-md);
+    border-radius: var(--rounded-lg);
+  }
+  .companion-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-turn-bar {
+    justify-content: center;
+  }
+  .btn-page-nav {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="storybook-shell">
+  <!-- Storybook Masthead & Almanac Chapter Progress Strip -->
+  <header class="book-header" aria-label="Storybook Navigation and Progress">
+    <div class="book-header-top">
+      <div class="book-brand">
+        <div class="avatar-badge is-green" id="header-companion-avatar" aria-hidden="true"></div>
+        <div>
+          <p class="book-subtitle-mini">Number Town Adventure &middot; CEFR A1–A2</p>
+          <h1 class="book-title-mini">The Wonderful World of Numbers</h1>
+        </div>
+      </div>
+
+      <div class="header-tools">
+        <div class="pill-stat is-highlight" id="stat-stars" aria-live="polite">
+          <i data-lucide="star" width="16" height="16" aria-hidden="true"></i>
+          <span>0 Stars</span>
+        </div>
+        <div class="pill-stat" id="stat-stickers" aria-live="polite">
+          <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+          <span>0 / 7 Stickers</span>
+        </div>
+        <button type="button" class="btn btn-secondary" id="sound-toggle-btn" onclick="toggleAudio()">
+          <i data-lucide="volume-2" width="18" height="18" aria-hidden="true"></i>
+          <span>Voice: On</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="chapter-strip">
+      <span class="chapter-strip-label">Storybook Pages</span>
+      <nav class="chapter-cells" id="chapter-cells" aria-label="Storybook Chapters"></nav>
+    </div>
+  </header>
+
+  <!-- Active Storybook Page Content -->
+  <main id="storybook-stage" class="storybook-page" aria-live="polite"></main>
+
+  <!-- Prominent Next & Previous Page Navigation -->
+  <nav class="page-turn-bar" aria-label="Turn Storybook Pages">
+    <button type="button" class="btn btn-secondary btn-page-nav" id="btn-prev-page" onclick="prevPage()">
+      <i data-lucide="arrow-left" width="20" height="20" aria-hidden="true"></i>
+      <span id="prev-page-label">Previous Page</span>
+    </button>
+
+    <div class="page-counter-badge" id="page-counter-badge">Page 1 of 10</div>
+
+    <button type="button" class="btn btn-primary btn-page-nav" id="btn-next-page" onclick="nextPage()">
+      <span id="next-page-label">Next Page</span>
+      <i data-lucide="arrow-right" width="20" height="20" aria-hidden="true"></i>
+    </button>
+  </nav>
+</div>
+
+<api-shim></api-shim>
+<script>
+// =========================================================================
+// 1. DATA & STORYBOOK CURRICULUM
+// =========================================================================
+const NUMBER_WORDS = [
+  ``, `ONE`, `TWO`, `THREE`, `FOUR`, `FIVE`, `SIX`, `SEVEN`, `EIGHT`, `NINE`, `TEN`,
+  `ELEVEN`, `TWELVE`, `THIRTEEN`, `FOURTEEN`, `FIFTEEN`, `SIXTEEN`, `SEVENTEEN`, `EIGHTEEN`, `NINETEEN`, `TWENTY`
+];
+
+const NUMBER_HINTS_ID = [
+  ``, `satu`, `dua`, `tiga`, `empat`, `lima`, `enam`, `tujuh`, `delapan`, `sembilan`, `sepuluh`,
+  `sebelas`, `dua belas`, `tiga belas`, `empat belas`, `lima belas`, `enam belas`, `tujuh belas`, `delapan belas`, `sembilan belas`, `dua puluh`
+];
+
+const PAGES = [
+  { id: `opening`, short: `1. Town`, title: `Welcome to Number Town!`, kicker: `Opening Story · Cerita Pembuka` },
+  { id: `map`, short: `2. Map`, title: `Number Town Adventure Map`, kicker: `Explore 7 Destinations · Peta Petualangan` },
+  { id: `garden`, short: `3. Garden`, title: `The Counting Garden`, kicker: `Chapter 1 · Numbers 1–20` },
+  { id: `market`, short: `4. Market`, title: `The Busy Market`, kicker: `Chapter 2 · Counting & "How many?"` },
+  { id: `bakery`, short: `5. Bakery`, title: `The Little Bakery`, kicker: `Chapter 3 · Prices & Shopping` },
+  { id: `farm`, short: `6. Farm`, title: `The Animal Farm`, kicker: `Chapter 4 · Farm Animals & Sounds` },
+  { id: `classroom`, short: `7. Class`, title: `Numbers in Our Classroom`, kicker: `Chapter 5 · Scavenger Hunt & Real Life` },
+  { id: `toyshop`, short: `8. Toys`, title: `The Toy Shop`, kicker: `Chapter 6 · $10 Budget Challenge` },
+  { id: `tower`, short: `9. Tower`, title: `The Number Tower`, kicker: `Chapter 7 · Numbers 1–100` },
+  { id: `missions`, short: `10. Life`, title: `Numbers in My Everyday Life`, kicker: `Real-Life Missions & Certificate` }
+];
+
+const STICKERS = [
+  { id: `garden`, label: `Garden Butterfly`, chapter: `Ch. 1 · Garden`, color: `--illus-mustard` },
+  { id: `market`, label: `Market Apple`, chapter: `Ch. 2 · Market`, color: `--illus-terracotta` },
+  { id: `bakery`, label: `Warm Croissant`, chapter: `Ch. 3 · Bakery`, color: `--illus-gold` },
+  { id: `farm`, label: `Red Barn`, chapter: `Ch. 4 · Farm`, color: `--illus-terracotta` },
+  { id: `classroom`, label: `Golden Pencil`, chapter: `Ch. 5 · Classroom`, color: `--illus-dusty-blue` },
+  { id: `toyshop`, label: `Teddy Bear`, chapter: `Ch. 6 · Toy Shop`, color: `--illus-brown-light` },
+  { id: `tower`, label: `Clock Tower Key`, chapter: `Ch. 7 · Tower`, color: `--primary` }
+];
+
+const GARDEN_LESSONS = {
+  1: { obj: `flower`, plural: `flower`, idHint: `bunga`, icon: `flower` },
+  2: { obj: `butterflies`, plural: `butterflies`, idHint: `kupu-kupu`, icon: `butterfly` },
+  3: { obj: `birds`, plural: `birds`, idHint: `burung`, icon: `bird` },
+  4: { obj: `apples`, plural: `apples`, idHint: `apel`, icon: `apple` },
+  5: { obj: `mushrooms`, plural: `mushrooms`, idHint: `jamur`, icon: `mushroom` },
+  6: { obj: `oranges`, plural: `oranges`, idHint: `jeruk`, icon: `orange` },
+  7: { obj: `flowers`, plural: `flowers`, idHint: `bunga`, icon: `flower` },
+  8: { obj: `butterflies`, plural: `butterflies`, idHint: `kupu-kupu`, icon: `butterfly` },
+  9: { obj: `birds`, plural: `birds`, idHint: `burung`, icon: `bird` },
+  10: { obj: `apples`, plural: `apples`, idHint: `apel`, icon: `apple` },
+  11: { obj: `leaves`, plural: `leaves`, idHint: `daun`, icon: `leaf` },
+  12: { obj: `flowers`, plural: `flowers`, idHint: `bunga`, icon: `flower` },
+  13: { obj: `butterflies`, plural: `butterflies`, idHint: `kupu-kupu`, icon: `butterfly` },
+  14: { obj: `berries`, plural: `berries`, idHint: `beri`, icon: `berry` },
+  15: { obj: `apples`, plural: `apples`, idHint: `apel`, icon: `apple` },
+  16: { obj: `mushrooms`, plural: `mushrooms`, idHint: `jamur`, icon: `mushroom` },
+  17: { obj: `oranges`, plural: `oranges`, idHint: `jeruk`, icon: `orange` },
+  18: { obj: `leaves`, plural: `leaves`, idHint: `daun`, icon: `leaf` },
+  19: { obj: `birds`, plural: `birds`, idHint: `burung`, icon: `bird` },
+  20: { obj: `flowers`, plural: `flowers`, idHint: `bunga`, icon: `flower` }
+};
+
+const MARKET_BASKETS = [
+  { id: `apples`, name: `Red Apples`, singular: `apple`, count: 5, word: `five`, idHint: `apel merah`, icon: `apple`, stall: `Fruit Stall` },
+  { id: `bananas`, name: `Yellow Bananas`, singular: `banana`, count: 3, word: `three`, idHint: `pisang`, icon: `banana`, stall: `Fruit Stall` },
+  { id: `oranges`, name: `Sweet Oranges`, singular: `orange`, count: 10, word: `ten`, idHint: `jeruk manis`, icon: `orange`, stall: `Fruit Stall` },
+  { id: `carrots`, name: `Fresh Carrots`, singular: `carrot`, count: 6, word: `six`, idHint: `wortel segar`, icon: `carrot`, stall: `Vegetable Stall` }
+];
+
+const BAKERY_ITEMS = [
+  { id: `cookie`, name: `Cookie`, plural: `cookies`, price: 1, idHint: `kue kering`, icon: `cookie` },
+  { id: `bread`, name: `Bread`, plural: `pieces of bread`, price: 2, idHint: `roti`, icon: `bread` },
+  { id: `donut`, name: `Donut`, plural: `donuts`, price: 2, idHint: `donat`, icon: `donut` },
+  { id: `milk`, name: `Milk`, plural: `bottles of milk`, price: 3, idHint: `susu`, icon: `milk` },
+  { id: `cake`, name: `Cake`, plural: `cakes`, price: 5, idHint: `kue tart`, icon: `cake` }
+];
+
+const FARM_ANIMALS = [
+  { id: `cow`, name: `Cows`, singular: `cow`, count: 3, word: `three`, sound: `Moo!`, idHint: `sapi` },
+  { id: `duck`, name: `Ducks`, singular: `duck`, count: 4, word: `four`, sound: `Quack!`, idHint: `bebek` },
+  { id: `sheep`, name: `Sheep`, singular: `sheep`, count: 5, word: `five`, sound: `Baa!`, idHint: `domba` },
+  { id: `horse`, name: `Horses`, singular: `horse`, count: 2, word: `two`, sound: `Neigh!`, idHint: `kuda` },
+  { id: `pig`, name: `Pigs`, singular: `pig`, count: 3, word: `three`, sound: `Oink!`, idHint: `babi` }
+];
+
+const TOY_ITEMS = [
+  { id: `ball`, name: `Ball`, price: 2, idHint: `bola`, icon: `ball` },
+  { id: `car`, name: `Toy Car`, price: 2, idHint: `mobil mainan`, icon: `car` },
+  { id: `doll`, name: `Doll`, price: 3, idHint: `boneka`, icon: `doll` },
+  { id: `blocks`, name: `Blocks`, price: 3, idHint: `balok susun`, icon: `blocks` },
+  { id: `bear`, name: `Teddy Bear`, price: 4, idHint: `boneka beruang`, icon: `bear` },
+  { id: `kite`, name: `Kite`, price: 5, idHint: `layang-layang`, icon: `kite` },
+  { id: `train`, name: `Toy Train`, price: 6, idHint: `kereta mainan`, icon: `train` }
+];
+
+// =========================================================================
+// 2. APPLICATION STATE (PERSISTED VIA notebookAppApi)
+// =========================================================================
+let appState = {
+  currentPage: 0,
+  companion: `lily`,
+  soundEnabled: true,
+  stars: 0,
+  stickers: [],
+  completedPages: [],
+  gardenSelectedNum: 5,
+  gardenTappedTokens: 0,
+  gardenMissionIdx: 0,
+  gardenMissionTapped: [],
+  marketSelectedIdx: 0,
+  marketBasketTapped: 0,
+  marketCompareAnswered: false,
+  bakeryCart: { cookie: 0, bread: 0, donut: 0, milk: 0, cake: 0 },
+  bakeryDone: false,
+  farmActiveAnimal: `cow`,
+  farmAnsweredCount: false,
+  farmAnsweredCompare: false,
+  classMissionIdx: 0,
+  classFoundIds: [],
+  realChairs: `4`,
+  toyDialogueStep: 0,
+  toyBasket: {},
+  toyBudgetDone: false,
+  towerTab: `A`,
+  towerMissingAns: ``,
+  towerTens: 3,
+  towerOnes: 5,
+  towerSortOrder: [84, 52, 100, 67],
+  towerTargetNum: 75,
+  userAge: 8,
+  routineIdx: 0,
+  familyCount: 4,
+  chatStep: 0,
+  myShopList: { apples: 2, bananas: 3, milk: 1 }
+};
+
+let audioCtx = null;
+
+function getCompanionName() {
+  return appState.companion === `oliver` ? `Oliver` : `Lily`;
+}
+function getPartnerName() {
+  return appState.companion === `oliver` ? `Lily` : `Oliver`;
+}
+
+// =========================================================================
+// 3. WEB SPEECH & WEB AUDIO SYNTHESIS (NO EXTERNAL AUDIO FILES)
+// =========================================================================
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === `suspended`) {
+    audioCtx.resume().catch(() => {});
+  }
+  return audioCtx;
+}
+
+function playTone(freq, duration = 0.16, type = `triangle`, gainLevel = 0.12) {
+  if (!appState.soundEnabled) return;
+  try {
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(gainLevel, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch (e) {}
+}
+
+function playCountChime(stepIndex) {
+  const scale = [523.25, 587.33, 659.25, 698.46, 783.99, 880.0, 987.77, 1046.5];
+  playTone(scale[stepIndex % scale.length], 0.18, `triangle`, 0.12);
+}
+
+function playSuccessFanfare() {
+  if (!appState.soundEnabled) return;
+  const notes = [523.25, 659.25, 783.99, 1046.5];
+  notes.forEach((f, idx) => {
+    setTimeout(() => playTone(f, 0.24, `triangle`, 0.13), idx * 95);
+  });
+}
+
+function playGentleTrySound() {
+  playTone(310, 0.16, `sine`, 0.09);
+}
+
+function playAnimalSoundEffect(animalId) {
+  if (!appState.soundEnabled) return;
+  try {
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    if (animalId === `cow`) {
+      osc.type = `sawtooth`;
+      osc.frequency.setValueAtTime(145, now);
+      osc.frequency.linearRampToValueAtTime(115, now + 0.45);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.5);
+    } else if (animalId === `duck`) {
+      osc.type = `square`;
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.linearRampToValueAtTime(310, now + 0.14);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.16);
+    } else if (animalId === `sheep`) {
+      osc.type = `triangle`;
+      osc.frequency.setValueAtTime(340, now);
+      osc.frequency.setValueAtTime(300, now + 0.1);
+      osc.frequency.setValueAtTime(340, now + 0.2);
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (animalId === `horse`) {
+      osc.type = `sawtooth`;
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(240, now + 0.35);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.38);
+    } else {
+      osc.type = `sine`;
+      osc.frequency.setValueAtTime(210, now);
+      osc.frequency.linearRampToValueAtTime(290, now + 0.12);
+      gain.gain.setValueAtTime(0.11, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.16);
+    }
+  } catch (e) {}
+}
+
+function speakText(text, btnEl) {
+  if (!appState.soundEnabled) {
+    playTone(440, 0.1, `sine`, 0.06);
+    return;
+  }
+  try {
+    if (`speechSynthesis` in window) {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = `en-US`;
+      utter.rate = 0.9;
+      utter.pitch = 1.05;
+      if (btnEl) {
+        btnEl.classList.add(`is-speaking`);
+        utter.onend = () => btnEl.classList.remove(`is-speaking`);
+        utter.onerror = () => btnEl.classList.remove(`is-speaking`);
+      }
+      window.speechSynthesis.speak(utter);
+    } else {
+      playTone(587.33, 0.15, `triangle`, 0.1);
+    }
+  } catch (e) {
+    playTone(587.33, 0.15, `triangle`, 0.1);
+  }
+}
+
+function toggleAudio() {
+  appState.soundEnabled = !appState.soundEnabled;
+  if (!appState.soundEnabled && `speechSynthesis` in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+  updateHeaderUI();
+  saveAppState();
+}
+
+// =========================================================================
+// 4. STATE PERSISTENCE HELPERS
+// =========================================================================
+async function saveAppState() {
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+      await window.notebookAppApi.setAppState(appState);
+    }
+  } catch (e) {}
+}
+
+function awardSticker(stickerId, pageIndex) {
+  let newlyEarned = false;
+  if (!appState.stickers.includes(stickerId)) {
+    appState.stickers.push(stickerId);
+    appState.stars += 3;
+    newlyEarned = true;
+  }
+  if (typeof pageIndex === `number` && !appState.completedPages.includes(pageIndex)) {
+    appState.completedPages.push(pageIndex);
+  }
+  if (newlyEarned) {
+    playSuccessFanfare();
+  }
+  updateHeaderUI();
+  saveAppState();
+  return newlyEarned;
+}
+
+function addStar(amount = 1) {
+  appState.stars += amount;
+  updateHeaderUI();
+  saveAppState();
+}
+
+// =========================================================================
+// 5. SVG ILLUSTRATION HELPERS (ALL COLORS VIA CSS TOKENS)
+// =========================================================================
+function svgCompanionFace(who, size = 44) {
+  const isOliver = who === `oliver`;
+  const skin = isOliver ? `var(--illus-skin-oliver)` : `var(--illus-skin-lily)`;
+  const hair = isOliver ? `var(--illus-hair-oliver)` : `var(--illus-hair-lily)`;
+  const shirt = isOliver ? `var(--illus-dusty-blue)` : `var(--illus-terracotta)`;
+  return `
+  <svg width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" fill="var(--illus-sky-warm)"/>
+    <path d="M14 60 C14 45 50 45 50 60 Z" fill="${shirt}"/>
+    ${isOliver
+      ? `<circle cx="32" cy="27" r="14" fill="${skin}"/>
+         <path d="M18 25 C18 12 46 12 46 25 C42 18 24 18 18 25 Z" fill="${hair}"/>`
+      : `<circle cx="17" cy="28" r="6" fill="${hair}"/><circle cx="47" cy="28" r="6" fill="${hair}"/>
+         <circle cx="32" cy="28" r="14" fill="${skin}"/>
+         <path d="M17 26 C18 12 46 12 47 26 C40 19 24 19 17 26 Z" fill="${hair}"/>`
+    }
+    <circle cx="27" cy="28" r="2" fill="var(--on-surface)"/>
+    <circle cx="37" cy="28" r="2" fill="var(--on-surface)"/>
+    <path d="M27 34 Q32 38 37 34" fill="none" stroke="var(--on-surface)" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="23" cy="32" r="2.2" fill="var(--illus-pink)" opacity="0.55"/>
+    <circle cx="41" cy="32" r="2.2" fill="var(--illus-pink)" opacity="0.55"/>
+  </svg>`;
+}
+
+function svgObjectIcon(type, size = 34) {
+  const icons = {
+    flower: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <line x1="20" y1="20" x2="20" y2="38" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="20" cy="11" r="6" fill="var(--illus-terracotta)"/><circle cx="28" cy="17" r="6" fill="var(--illus-terracotta)"/>
+      <circle cx="25" cy="25" r="6" fill="var(--illus-terracotta)"/><circle cx="15" cy="25" r="6" fill="var(--illus-terracotta)"/>
+      <circle cx="12" cy="17" r="6" fill="var(--illus-terracotta)"/><circle cx="20" cy="18" r="5" fill="var(--illus-mustard)"/>
+    </svg>`,
+    butterfly: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="13" cy="16" rx="8" ry="6" fill="var(--illus-mustard)" stroke="var(--illus-brown)" stroke-width="1.5"/>
+      <ellipse cx="27" cy="16" rx="8" ry="6" fill="var(--illus-mustard)" stroke="var(--illus-brown)" stroke-width="1.5"/>
+      <ellipse cx="14" cy="25" rx="6" ry="5" fill="var(--illus-dusty-blue-soft)" stroke="var(--illus-brown)" stroke-width="1.5"/>
+      <ellipse cx="26" cy="25" rx="6" ry="5" fill="var(--illus-dusty-blue-soft)" stroke="var(--illus-brown)" stroke-width="1.5"/>
+      <rect x="18.5" y="12" width="3" height="17" rx="1.5" fill="var(--on-surface)"/>
+    </svg>`,
+    bird: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="22" rx="10" ry="8" fill="var(--illus-dusty-blue)"/>
+      <circle cx="26" cy="16" r="6" fill="var(--illus-dusty-blue)"/>
+      <polygon points="31,15 38,17 31,19" fill="var(--illus-mustard)"/>
+      <circle cx="27" cy="15" r="1.3" fill="var(--on-surface)"/>
+      <path d="M12 20 Q18 13 24 22" fill="var(--illus-dusty-blue-soft)"/>
+    </svg>`,
+    apple: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M20 11 C13 9 8 15 9 23 C10 31 16 35 20 33 C24 35 30 31 31 23 C32 15 27 9 20 11 Z" fill="var(--illus-terracotta)"/>
+      <path d="M20 11 L21 5" stroke="var(--illus-brown)" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="25" cy="7" rx="4" ry="2.2" fill="var(--primary)"/>
+    </svg>`,
+    mushroom: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="16" y="21" width="8" height="14" rx="3" fill="var(--surface-container-low)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+      <path d="M7 22 C7 11 33 11 33 22 Z" fill="var(--illus-terracotta)"/>
+      <circle cx="15" cy="16" r="2.2" fill="var(--illus-cream)"/><circle cx="24" cy="15" r="2.5" fill="var(--illus-cream)"/>
+    </svg>`,
+    orange: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="22" r="11" fill="var(--illus-mustard)"/>
+      <ellipse cx="23" cy="9" rx="4.5" ry="2.5" fill="var(--primary)"/>
+    </svg>`,
+    banana: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M9 28 C16 34 30 28 32 11 C28 19 20 25 9 28 Z" fill="var(--illus-mustard)" stroke="var(--tertiary)" stroke-width="1.5"/>
+    </svg>`,
+    carrot: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <polygon points="14,14 26,14 20,36" fill="var(--illus-terracotta)"/>
+      <path d="M20 14 L15 6 M20 14 L20 5 M20 14 L25 6" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>`,
+    leaf: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M9 29 C9 13 24 8 32 9 C31 23 23 32 9 29 Z" fill="var(--primary)"/>
+      <path d="M9 29 L26 14" stroke="var(--primary-container)" stroke-width="2" stroke-linecap="round"/>
+    </svg>`,
+    berry: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="16" cy="24" r="7" fill="var(--illus-dusty-blue)"/><circle cx="24" cy="24" r="7" fill="var(--illus-dusty-blue)"/>
+      <circle cx="20" cy="17" r="7" fill="var(--illus-dusty-blue)"/><path d="M20 10 L20 6" stroke="var(--primary)" stroke-width="2.5"/>
+    </svg>`,
+    cookie: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="13" fill="var(--illus-brown-light)"/>
+      <circle cx="15" cy="16" r="2.2" fill="var(--illus-brown)"/><circle cx="24" cy="15" r="2" fill="var(--illus-brown)"/>
+      <circle cx="21" cy="24" r="2.4" fill="var(--illus-brown)"/><circle cx="14" cy="24" r="1.8" fill="var(--illus-brown)"/>
+    </svg>`,
+    bread: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M7 25 C7 14 33 14 33 25 L31 30 L9 30 Z" fill="var(--illus-mustard)" stroke="var(--illus-brown)" stroke-width="2"/>
+      <line x1="15" y1="18" x2="17" y2="23" stroke="var(--illus-brown)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="22" y1="18" x2="24" y2="23" stroke="var(--illus-brown)" stroke-width="2" stroke-linecap="round"/>
+    </svg>`,
+    donut: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="13" fill="var(--illus-brown-light)"/>
+      <circle cx="20" cy="20" r="11" fill="var(--illus-pink)"/>
+      <circle cx="20" cy="20" r="4.5" fill="var(--illus-cream)"/>
+    </svg>`,
+    milk: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="13" y="13" width="14" height="22" rx="3" fill="var(--illus-white)" stroke="var(--illus-dusty-blue)" stroke-width="2"/>
+      <rect x="15" y="7" width="10" height="6" rx="1" fill="var(--illus-dusty-blue)"/>
+      <rect x="13" y="21" width="14" height="7" fill="var(--illus-dusty-blue-soft)"/>
+    </svg>`,
+    cake: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="9" y="18" width="22" height="15" rx="3" fill="var(--illus-terracotta-soft)" stroke="var(--illus-brown)" stroke-width="1.5"/>
+      <path d="M9 19 Q14 24 20 19 Q26 24 31 19 Z" fill="var(--illus-cream)"/>
+      <rect x="19" y="10" width="2" height="8" fill="var(--illus-dusty-blue)"/>
+      <circle cx="20" cy="8" r="2.5" fill="var(--illus-mustard)"/>
+    </svg>`,
+    ball: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="13" fill="var(--illus-terracotta)"/>
+      <path d="M9 15 Q20 22 31 15" fill="none" stroke="var(--illus-cream)" stroke-width="2.5"/>
+      <path d="M9 25 Q20 18 31 25" fill="none" stroke="var(--illus-mustard)" stroke-width="2.5"/>
+    </svg>`,
+    car: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="6" y="19" width="28" height="10" rx="3" fill="var(--illus-dusty-blue)"/>
+      <path d="M12 19 L16 12 L26 12 L30 19 Z" fill="var(--illus-dusty-blue-soft)"/>
+      <circle cx="13" cy="30" r="4" fill="var(--on-surface)"/><circle cx="27" cy="30" r="4" fill="var(--on-surface)"/>
+    </svg>`,
+    doll: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="13" r="6" fill="var(--illus-skin-lily)"/>
+      <polygon points="12,33 28,33 23,19 17,19" fill="var(--illus-pink)"/>
+      <circle cx="18" cy="13" r="1" fill="var(--on-surface)"/><circle cx="22" cy="13" r="1" fill="var(--on-surface)"/>
+    </svg>`,
+    blocks: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="8" y="21" width="11" height="11" rx="2" fill="var(--illus-mustard)" stroke="var(--on-surface)" stroke-width="1.2"/>
+      <rect x="21" y="21" width="11" height="11" rx="2" fill="var(--primary)" stroke="var(--on-surface)" stroke-width="1.2"/>
+      <rect x="14" y="10" width="11" height="11" rx="2" fill="var(--illus-terracotta)" stroke="var(--on-surface)" stroke-width="1.2"/>
+    </svg>`,
+    bear: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="13" cy="12" r="4" fill="var(--illus-brown-light)"/><circle cx="27" cy="12" r="4" fill="var(--illus-brown-light)"/>
+      <circle cx="20" cy="18" r="8" fill="var(--illus-brown-light)"/><ellipse cx="20" cy="29" rx="9" ry="7" fill="var(--illus-brown-light)"/>
+      <circle cx="20" cy="19" r="3" fill="var(--illus-cream)"/><circle cx="20" cy="18" r="1.4" fill="var(--on-surface)"/>
+    </svg>`,
+    kite: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <polygon points="20,5 32,16 20,29 8,16" fill="var(--illus-mustard)" stroke="var(--illus-terracotta)" stroke-width="2"/>
+      <path d="M20 29 Q24 34 18 38" fill="none" stroke="var(--primary)" stroke-width="2"/>
+    </svg>`,
+    train: `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="7" y="16" width="26" height="13" rx="3" fill="var(--primary)"/>
+      <rect x="22" y="10" width="9" height="8" fill="var(--illus-terracotta)"/>
+      <rect x="10" y="11" width="4" height="5" fill="var(--on-surface)"/>
+      <circle cx="13" cy="31" r="3.5" fill="var(--illus-mustard)"/><circle cx="26" cy="31" r="3.5" fill="var(--illus-mustard)"/>
+    </svg>`
+  };
+  return icons[type] || icons.flower;
+}
+
+// =========================================================================
+// 6. PAGE RENDERERS (10 STORYBOOK PAGES)
+// =========================================================================
+function renderPage0Opening() {
+  const isLily = appState.companion === `lily`;
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[0].kicker}</p>
+        <h2 class="page-title is-display">Welcome to Number Town!</h2>
+        <p class="page-lead">
+          Today, Lily and Oliver have a special mission. Help them count things, buy food, visit the farm, and explore their little town!
+          <span class="id-hint">(Hari ini Lily dan Oliver punya misi khusus. Yuk bantu mereka berhitung dalam bahasa Inggris!)</span>
+        </p>
+      </div>
+      <button type="button" class="btn btn-audio" onclick="speakText('Welcome to Number Town! Today, Lily and Oliver have a special mission. Can you help them use numbers in everyday life? Let us begin!', this)">
+        <i data-lucide="volume-2" width="18" height="18" aria-hidden="true"></i>
+        <span>Listen to Story</span>
+      </button>
+    </div>
+
+    <div class="spread-grid">
+      <div class="illus-frame">
+        <svg viewBox="0 0 640 380" role="img" aria-label="Illustrated panorama of Number Town with Lily, Oliver, market, bakery, farm, school, bus stop, and clock tower">
+          <rect width="640" height="380" fill="var(--illus-sky)"/>
+          <path d="M0 245 Q160 215 320 240 Q480 265 640 230 L640 380 L0 380 Z" fill="var(--illus-meadow)"/>
+          <path d="M0 295 Q320 270 640 305 L640 380 L0 380 Z" fill="var(--surface-container-high)"/>
+          <!-- Sun & Clouds -->
+          <circle cx="560" cy="68" r="34" fill="var(--illus-mustard-soft)"/>
+          <circle cx="560" cy="68" r="24" fill="var(--illus-mustard)"/>
+          <g class="anim-float">
+            <ellipse cx="140" cy="66" rx="34" ry="16" fill="var(--illus-cloud)"/>
+            <ellipse cx="164" cy="62" rx="26" ry="14" fill="var(--illus-cloud)"/>
+            <path d="M235 80 Q242 72 249 80 Q256 72 263 80" fill="none" stroke="var(--on-surface-variant)" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M275 64 Q280 58 285 64 Q290 58 295 64" fill="none" stroke="var(--on-surface-variant)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <!-- Distant Farm Barn -->
+          <g transform="translate(36, 152)">
+            <rect x="8" y="34" width="76" height="54" fill="var(--illus-terracotta)" rx="3"/>
+            <polygon points="0,36 46,6 92,36" fill="var(--illus-brown)"/>
+            <rect x="34" y="54" width="24" height="34" fill="var(--illus-cream)"/>
+            <line x1="34" y1="54" x2="58" y2="88" stroke="var(--illus-brown)" stroke-width="2"/>
+            <line x1="58" y1="54" x2="34" y2="88" stroke="var(--illus-brown)" stroke-width="2"/>
+          </g>
+          <!-- Bakery & Market Stall -->
+          <g transform="translate(154, 158)">
+            <rect x="0" y="28" width="96" height="62" rx="4" fill="var(--illus-cream)" stroke="var(--outline-variant)" stroke-width="2"/>
+            <polygon points="-6,30 102,30 92,10 4,10" fill="var(--illus-mustard)"/>
+            <rect x="14" y="44" width="32" height="24" rx="3" fill="var(--illus-sky-warm)"/>
+            <rect x="56" y="46" width="26" height="44" rx="2" fill="var(--illus-brown-light)"/>
+            <text x="48" y="24" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">BAKERY</text>
+          </g>
+          <!-- Center Clock Tower -->
+          <g transform="translate(284, 62)">
+            <rect x="12" y="56" width="54" height="132" fill="var(--surface-container-low)" stroke="var(--illus-brown)" stroke-width="2"/>
+            <polygon points="4,58 39,10 74,58" fill="var(--illus-dusty-blue)"/>
+            <circle cx="39" cy="86" r="18" fill="var(--illus-cream)" stroke="var(--illus-brown)" stroke-width="2.5"/>
+            <line x1="39" y1="86" x2="39" y2="74" stroke="var(--on-surface)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="39" y1="86" x2="48" y2="86" stroke="var(--illus-terracotta)" stroke-width="2" stroke-linecap="round"/>
+            <text x="39" y="130" text-anchor="middle" font-family="Literata" font-size="13" font-weight="700" fill="var(--primary)">123</text>
+          </g>
+          <!-- Schoolhouse -->
+          <g transform="translate(394, 146)">
+            <rect x="0" y="34" width="102" height="68" rx="4" fill="var(--illus-terracotta-soft)" stroke="var(--illus-brown)" stroke-width="2"/>
+            <polygon points="-6,36 51,6 108,36" fill="var(--primary)"/>
+            <rect x="38" y="60" width="26" height="42" fill="var(--illus-brown)"/>
+            <rect x="12" y="52" width="18" height="20" rx="2" fill="var(--illus-cream)"/>
+            <rect x="72" y="52" width="18" height="20" rx="2" fill="var(--illus-cream)"/>
+            <text x="51" y="28" text-anchor="middle" font-family="Nunito Sans" font-size="10" font-weight="800" fill="var(--on-primary)">SCHOOL</text>
+          </g>
+          <!-- Bus Stop Sign & Town Bus -->
+          <g transform="translate(525, 198)">
+            <rect x="18" y="12" width="4" height="58" fill="var(--on-surface-variant)"/>
+            <circle cx="20" cy="14" r="12" fill="var(--illus-mustard)" stroke="var(--on-surface)" stroke-width="1.5"/>
+            <text x="20" y="18" text-anchor="middle" font-family="Nunito Sans" font-size="9" font-weight="800" fill="var(--on-surface)">BUS</text>
+          </g>
+          <g class="anim-bob" transform="translate(474, 266)">
+            <rect x="0" y="8" width="108" height="42" rx="8" fill="var(--illus-mustard)" stroke="var(--illus-brown)" stroke-width="2"/>
+            <rect x="10" y="15" width="22" height="14" rx="2" fill="var(--illus-sky)"/>
+            <rect x="38" y="15" width="22" height="14" rx="2" fill="var(--illus-sky)"/>
+            <rect x="66" y="15" width="24" height="14" rx="2" fill="var(--illus-sky)"/>
+            <circle cx="24" cy="52" r="9" fill="var(--on-surface)"/><circle cx="84" cy="52" r="9" fill="var(--on-surface)"/>
+          </g>
+          <!-- Lily & Oliver in foreground -->
+          <g transform="translate(152, 248)">
+            <rect x="14" y="42" width="28" height="36" rx="8" fill="var(--illus-terracotta)"/>
+            <circle cx="28" cy="24" r="16" fill="var(--illus-skin-lily)"/>
+            <circle cx="14" cy="24" r="6" fill="var(--illus-hair-lily)"/><circle cx="42" cy="24" r="6" fill="var(--illus-hair-lily)"/>
+            <path d="M13 21 C15 8 41 8 43 21 C36 14 20 14 13 21 Z" fill="var(--illus-hair-lily)"/>
+            <circle cx="23" cy="25" r="2" fill="var(--on-surface)"/><circle cx="33" cy="25" r="2" fill="var(--on-surface)"/>
+            <path d="M23 31 Q28 35 33 31" fill="none" stroke="var(--on-surface)" stroke-width="2" stroke-linecap="round"/>
+            <text x="28" y="94" text-anchor="middle" font-family="Nunito Sans" font-size="13" font-weight="800" fill="var(--on-surface)">Lily</text>
+          </g>
+          <g transform="translate(244, 248)">
+            <rect x="14" y="42" width="28" height="36" rx="8" fill="var(--illus-dusty-blue)"/>
+            <circle cx="28" cy="24" r="16" fill="var(--illus-skin-oliver)"/>
+            <path d="M12 22 C13 8 43 8 44 22 C37 14 19 14 12 22 Z" fill="var(--illus-hair-oliver)"/>
+            <circle cx="23" cy="25" r="2" fill="var(--on-surface)"/><circle cx="33" cy="25" r="2" fill="var(--on-surface)"/>
+            <path d="M23 31 Q28 35 33 31" fill="none" stroke="var(--on-surface)" stroke-width="2" stroke-linecap="round"/>
+            <text x="28" y="94" text-anchor="middle" font-family="Nunito Sans" font-size="13" font-weight="800" fill="var(--on-surface)">Oliver</text>
+          </g>
+        </svg>
+      </div>
+
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card is-leaf-highlight">
+          <p class="page-kicker" style="color: var(--on-primary-container);">Choose Your Adventure Friend</p>
+          <h3 class="card-heading">Who will explore with you?</h3>
+          <p style="margin: 0;">Select Lily or Oliver! <span class="id-hint">(Pilih teman petualanganmu!)</span></p>
+          <div class="companion-grid">
+            <button type="button" class="companion-card ${isLily ? `is-selected` : ``}" onclick="selectCompanion('lily')">
+              ${svgCompanionFace(`lily`, 64)}
+              <strong>Lily</strong>
+              <span style="font-size: 0.85rem; color: var(--on-surface-variant);">Loves counting flowers &amp; toys</span>
+            </button>
+            <button type="button" class="companion-card ${!isLily ? `is-selected` : ``}" onclick="selectCompanion('oliver')">
+              ${svgCompanionFace(`oliver`, 64)}
+              <strong>Oliver</strong>
+              <span style="font-size: 0.85rem; color: var(--on-surface-variant);">Loves visiting the market &amp; farm</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-heading">How We Learn Here</h3>
+          <p style="margin: 0;"><strong>SEE &rarr; COUNT &rarr; RECOGNIZE &rarr; SAY &rarr; USE IN REAL LIFE!</strong></p>
+          <p style="margin: 0; font-size: 0.94rem; color: var(--on-surface-variant);">
+            Turn each page with <strong>Next</strong> and <strong>Previous</strong> buttons, tap objects to hear English numbers, and collect all <strong>7 Town Stickers</strong>!
+          </p>
+          <div>
+            <button type="button" class="btn btn-primary" style="width: 100%; min-height: 52px; font-size: 1.06rem;" onclick="goToPage(1)">
+              <span>Start Adventure</span>
+              <i data-lucide="sparkles" width="20" height="20" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage1Map() {
+  const destinations = [
+    { page: 2, sticker: `garden`, name: `The Counting Garden`, focus: `Numbers 1–20`, idHint: `Taman Berhitung`, x: 96, y: 88, color: `--primary` },
+    { page: 3, sticker: `market`, name: `The Busy Market`, focus: `How many?`, idHint: `Pasar Ramai`, x: 268, y: 74, color: `--illus-terracotta` },
+    { page: 4, sticker: `bakery`, name: `The Little Bakery`, focus: `Prices & Shopping`, idHint: `Toko Roti`, x: 454, y: 88, color: `--illus-gold` },
+    { page: 5, sticker: `farm`, name: `The Animal Farm`, focus: `Animals & Sounds`, idHint: `Peternakan`, x: 540, y: 215, color: `--illus-terracotta` },
+    { page: 6, sticker: `classroom`, name: `School Classroom`, focus: `Scavenger Hunt`, idHint: `Ruang Kelas`, x: 382, y: 245, color: `--illus-dusty-blue` },
+    { page: 7, sticker: `toyshop`, name: `The Toy Shop`, focus: `$10 Budget`, idHint: `Toko Mainan`, x: 196, y: 240, color: `--illus-brown` },
+    { page: 8, sticker: `tower`, name: `The Number Tower`, focus: `Numbers 1–100`, idHint: `Menara Angka`, x: 292, y: 158, color: `--primary` }
+  ];
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[1].kicker}</p>
+        <h2 class="page-title">${PAGES[1].title}</h2>
+        <p class="page-lead">
+          Click any place on the town map to jump right in, or turn the page with <strong>Next Page</strong>!
+          <span class="id-hint">(Klik lokasi mana saja di peta untuk memulai aktivitas!)</span>
+        </p>
+      </div>
+      <div class="pill-stat is-highlight">
+        <span>Companion: ${getCompanionName()}</span>
+      </div>
+    </div>
+
+    <div class="illus-frame">
+      <svg viewBox="0 0 640 320" role="img" aria-label="Interactive Map of Number Town with 7 clickable destinations">
+        <rect width="640" height="320" fill="var(--illus-meadow)"/>
+        <!-- Winding Cobble Road -->
+        <path d="M90 95 Q200 45 270 85 T455 95 Q560 130 540 215 Q460 270 380 245 Q280 210 196 240 Q100 220 96 95" fill="none" stroke="var(--surface-container-high)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M90 95 Q200 45 270 85 T455 95 Q560 130 540 215 Q460 270 380 245 Q280 210 196 240 Q100 220 96 95" fill="none" stroke="var(--illus-cream)" stroke-width="3" stroke-dasharray="8 8"/>
+        <!-- Pond & Trees -->
+        <ellipse cx="86" cy="236" rx="46" ry="26" fill="var(--illus-dusty-blue-soft)"/>
+        <circle cx="566" cy="84" r="22" fill="var(--illus-grass)"/><circle cx="584" cy="96" r="18" fill="var(--primary)"/>
+        <circle cx="48" cy="158" r="20" fill="var(--illus-grass)"/>
+        ${destinations.map(d => {
+          const done = appState.stickers.includes(d.sticker);
+          return `
+          <g class="clickable-svg-item" onclick="goToPage(${d.page})" role="button" tabindex="0" aria-label="Go to ${d.name}">
+            <circle cx="${d.x}" cy="${d.y}" r="28" fill="var(--illus-cream)" stroke="var(${d.color})" stroke-width="3.5"/>
+            <text x="${d.x}" y="${d.y + 5}" text-anchor="middle" font-family="Literata" font-size="16" font-weight="700" fill="var(--on-surface)">${d.page - 1}</text>
+            ${done ? `<circle cx="${d.x + 20}" cy="${d.y - 20}" r="10" fill="var(--primary)"/><text x="${d.x + 20}" y="${d.y - 16}" text-anchor="middle" font-size="11" font-weight="800" fill="var(--on-primary)">&#10003;</text>` : ``}
+            <rect x="${d.x - 56}" y="${d.y + 32}" width="112" height="22" rx="11" fill="var(--illus-cream)" stroke="var(--outline-variant)" stroke-width="1"/>
+            <text x="${d.x}" y="${d.y + 47}" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">${d.name.replace(`The `, ``)}</text>
+          </g>`;
+        }).join(``)}
+      </svg>
+    </div>
+
+    <div class="card-grid">
+      ${destinations.map((d, idx) => {
+        const done = appState.stickers.includes(d.sticker);
+        return `
+        <button type="button" class="card is-interactive ${done ? `is-leaf-highlight` : ``}" style="text-align: left; cursor: pointer;" onclick="goToPage(${d.page})">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+            <span class="page-kicker" style="margin: 0;">Ch. ${idx + 1}</span>
+            <span class="sticker-status-pill ${done ? `is-earned` : ``}" style="padding: 0.2rem 0.6rem; font-size: 0.78rem;">
+              ${done ? `&#9733; Sticker Earned` : `Open`}
+            </span>
+          </div>
+          <h3 class="card-heading">${d.name}</h3>
+          <p style="margin: 0; font-size: 0.9rem; color: var(--on-surface-variant);">${d.focus} <span class="id-hint">(${d.idHint})</span></p>
+        </button>`;
+      }).join(``)}
+      <button type="button" class="card is-interactive is-cream" style="text-align: left; cursor: pointer;" onclick="goToPage(9)">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="page-kicker" style="margin: 0;">Final</span>
+          <span class="sticker-status-pill" style="padding: 0.2rem 0.6rem; font-size: 0.78rem;">Missions</span>
+        </div>
+        <h3 class="card-heading">Real-Life Missions &amp; Certificate</h3>
+        <p style="margin: 0; font-size: 0.9rem; color: var(--on-surface-variant);">Age, Routine, Family, Chat <span class="id-hint">(Kehidupan Sehari-hari)</span></p>
+      </button>
+    </div>
+  `;
+}
+
+function renderPage2Garden() {
+  const num = appState.gardenSelectedNum;
+  const lesson = GARDEN_LESSONS[num];
+  const word = NUMBER_WORDS[num];
+  const hint = NUMBER_HINTS_ID[num];
+
+  const missions = [
+    { target: 5, item: `butterflies`, label: `Find five butterflies!`, idHint: `Temukan lima kupu-kupu!` },
+    { target: 6, item: `flowers`, label: `Find six flowers!`, idHint: `Temukan enam bunga!` },
+    { target: 4, item: `apples`, label: `Find four apples!`, idHint: `Temukan empat apel!` }
+  ];
+  const m = missions[appState.gardenMissionIdx % missions.length];
+  const tappedCount = appState.gardenMissionTapped.length;
+  const missionSolved = tappedCount >= m.target;
+  const hasSticker = appState.stickers.includes(`garden`);
+
+  // Garden coordinates for mission objects
+  const sceneItems = [];
+  for (let i = 0; i < 8; i++) {
+    const x = 62 + (i % 4) * 145 + (i > 3 ? 28 : 0);
+    const y = m.item === `flowers` ? (220 + (i % 2) * 34) : m.item === `apples` ? (115 + (i % 3) * 32) : (64 + (i % 3) * 44);
+    const isTapped = appState.gardenMissionTapped.includes(i);
+    sceneItems.push({ i, x, y, isTapped });
+  }
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[2].kicker}</p>
+        <h2 class="page-title">${PAGES[2].title}</h2>
+        <p class="page-lead">
+          Tap numbers 1–20 to see real quantities, click each object to count aloud, and finish the garden mission!
+          <span class="id-hint">(Sentuh angka 1–20 untuk mendengar &amp; menghitung benda di taman!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Butterfly` : `Sticker: Butterfly`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <!-- Left: Number Explorer 1-20 -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 class="card-heading">1. Tap a Number (1–20)</h3>
+          <span class="id-hint">Pilih angka</span>
+        </div>
+
+        <div class="number-grid-buttons" role="group" aria-label="Numbers 1 to 20">
+          ${Array.from({ length: 20 }, (_, idx) => idx + 1).map(n => `
+            <button type="button" class="num-chip ${n === num ? `is-active` : ``}" onclick="selectGardenNumber(${n})">${n}</button>
+          `).join(``)}
+        </div>
+
+        <div class="big-number-stage">
+          <div class="big-numeral">${num}</div>
+          <div style="flex: 1; min-width: 180px;">
+            <p class="number-word-title">${word}</p>
+            <p style="margin: 0.15rem 0 0.5rem; font-weight: 700;">
+              ${num} ${lesson.plural} <span class="id-hint">(${hint} ${lesson.idHint})</span>
+            </p>
+            <button type="button" class="btn btn-audio" onclick="speakText('${word}. ${num} ${lesson.plural}.', this)">
+              <i data-lucide="volume-2" width="17" height="17" aria-hidden="true"></i>
+              <span>Hear "${word}"</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <p style="margin: 0 0 0.35rem; font-weight: 700; font-size: 0.92rem;">
+            Tap each object one by one to count (${appState.gardenTappedTokens} / ${num}):
+            <span class="id-hint">(Sentuh satu per satu!)</span>
+          </p>
+          <div class="visual-count-tray">
+            ${Array.from({ length: num }, (_, i) => `
+              <button type="button" class="count-token-btn ${i < appState.gardenTappedTokens ? `is-tapped` : ``}"
+                aria-label="Count item ${i + 1}" onclick="tapGardenToken(${i})">
+                ${svgObjectIcon(lesson.icon, 28)}
+              </button>
+            `).join(``)}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Garden Counting Mission -->
+      <div class="card is-leaf-highlight">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 class="card-heading">2. Garden Mission</h3>
+          <button type="button" class="btn btn-audio" onclick="speakText('${m.label}', this)">
+            <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i>
+            <span>Hear Task</span>
+          </button>
+        </div>
+
+        <p style="margin: 0; font-size: 1.08rem; font-weight: 800;">
+          "${m.label}" <span class="id-hint" style="color: var(--on-primary-container);">(${m.idHint})</span>
+        </p>
+
+        <div class="illus-frame">
+          <svg viewBox="0 0 580 300" role="img" aria-label="Counting Garden illustration with clickable items">
+            <rect width="580" height="300" fill="var(--illus-sky-warm)"/>
+            <path d="M0 200 Q290 175 580 205 L580 300 L0 300 Z" fill="var(--illus-meadow)"/>
+            <!-- Tree for apples -->
+            <rect x="65" y="130" width="28" height="90" fill="var(--illus-brown)"/>
+            <ellipse cx="290" cy="115" rx="220" ry="72" fill="var(--illus-grass)" opacity="0.45"/>
+            ${sceneItems.map(item => `
+              <g class="clickable-svg-item ${item.isTapped ? `is-counted` : ``}"
+                 transform="translate(${item.x}, ${item.y})"
+                 onclick="tapGardenMissionItem(${item.i}, ${m.target})"
+                 role="button" tabindex="0" aria-label="Garden ${m.item}">
+                <circle cx="20" cy="20" r="24" fill="${item.isTapped ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="${item.isTapped ? `0.95` : `0.65`}" stroke="${item.isTapped ? `var(--tertiary)` : `var(--outline-variant)`}" stroke-width="2"/>
+                ${m.item === `butterflies` ? svgObjectIcon(`butterfly`, 40) : m.item === `flowers` ? svgObjectIcon(`flower`, 40) : svgObjectIcon(`apple`, 40)}
+                ${item.isTapped ? `<circle cx="38" cy="4" r="10" fill="var(--primary)"/><text x="38" y="8" text-anchor="middle" font-size="11" font-weight="800" fill="var(--on-primary)">&#10003;</text>` : ``}
+              </g>
+            `).join(``)}
+          </svg>
+        </div>
+
+        <div class="feedback-banner ${missionSolved ? `is-success` : `is-neutral`}">
+          <span>
+            ${missionSolved
+              ? `Great! You found ${NUMBER_WORDS[m.target].toLowerCase()} ${m.item}!`
+              : `Found ${tappedCount} of ${m.target} ${m.item}`}
+          </span>
+          <button type="button" class="btn btn-secondary" style="min-height: 44px;" onclick="nextGardenMission()">
+            ${missionSolved ? `Next Challenge` : `Reset`}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage3Market() {
+  const idx = appState.marketSelectedIdx % MARKET_BASKETS.length;
+  const basket = MARKET_BASKETS[idx];
+  const hasSticker = appState.stickers.includes(`market`);
+  const tapped = appState.marketBasketTapped;
+  const countMatches = tapped === basket.count;
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[3].kicker}</p>
+        <h2 class="page-title">${PAGES[3].title}</h2>
+        <p class="page-lead">
+          Explore the market stalls, ask <strong>"How many ... are there?"</strong>, and count the fruit and vegetables!
+          <span class="id-hint">(Jelajahi pasar dan jawab pertanyaan "How many?")</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Market Apple` : `Sticker: Market Apple`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <!-- Dialogue & Stall Selector -->
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card">
+          <h3 class="card-heading">Market Stalls <span class="id-hint">(Kios Pasar)</span></h3>
+          <div class="subtabs">
+            ${MARKET_BASKETS.map((b, i) => `
+              <button type="button" class="subtab-btn ${i === idx ? `is-active` : ``}" onclick="selectMarketBasket(${i})">
+                ${b.name}
+              </button>
+            `).join(``)}
+          </div>
+
+          <div class="dialogue-stack" style="margin-top: var(--space-sm);">
+            <div class="speech-row">
+              <div class="avatar-badge">${svgCompanionFace(appState.companion, 46)}</div>
+              <div class="speech-bubble is-partner">
+                <span class="speech-speaker">${getCompanionName()}</span>
+                <p class="speech-text">"How many ${basket.name.toLowerCase()} are there?" <span class="id-hint">(Ada berapa banyak?)</span></p>
+                <div>
+                  <button type="button" class="btn btn-audio" onclick="speakText('How many ${basket.name.toLowerCase()} are there?', this)">
+                    <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Listen
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="speech-row is-right">
+              <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 46)}</div>
+              <div class="speech-bubble">
+                <span class="speech-speaker">Shopkeeper</span>
+                <p class="speech-text">"${countMatches ? `There are ${basket.word} ${basket.name.toLowerCase()}!` : `Count the basket first to complete the sentence!`}"</p>
+                <div>
+                  <button type="button" class="btn btn-audio" onclick="speakText('There are ${basket.word} ${basket.name.toLowerCase()}.', this)">
+                    <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Hear Model
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compare Two Baskets -->
+        <div class="card is-cream">
+          <h3 class="card-heading">Compare Two Baskets <span class="id-hint">(Bandingkan Keranjang)</span></h3>
+          <p style="margin: 0;">Basket A has <strong>5 Red Apples</strong>. Basket B has <strong>10 Sweet Oranges</strong>. Which basket has MORE fruit?</p>
+          <div class="choice-row">
+            <button type="button" class="choice-btn" onclick="answerMarketCompare(false, this)">5 Red Apples</button>
+            <button type="button" class="choice-btn ${appState.marketCompareAnswered ? `is-correct` : ``}" onclick="answerMarketCompare(true, this)">10 Sweet Oranges</button>
+          </div>
+          <div class="feedback-banner ${appState.marketCompareAnswered ? `is-success` : `is-neutral`}" id="market-compare-fb">
+            <span>${appState.marketCompareAnswered ? `You got it! Ten oranges is more than five apples.` : `Tap the basket with more fruit!`}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Market Basket -->
+      <div class="card is-leaf-highlight">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 class="card-heading">${basket.stall}: ${basket.name}</h3>
+          <span class="id-hint" style="color: var(--on-primary-container);">${basket.idHint}</span>
+        </div>
+
+        <p style="margin: 0; font-weight: 700;">1. Tap each item in the basket to count (${tapped} / ${basket.count}):</p>
+        <div class="visual-count-tray" style="background: var(--illus-cream); padding: var(--space-md); border-radius: var(--rounded-lg); border: var(--border-soft);">
+          ${Array.from({ length: basket.count }, (_, i) => `
+            <button type="button" class="count-token-btn ${i < tapped ? `is-tapped` : ``}" onclick="tapMarketItem(${i})" aria-label="Count ${basket.singular} ${i + 1}">
+              ${svgObjectIcon(basket.icon, 36)}
+            </button>
+          `).join(``)}
+        </div>
+
+        <p style="margin: 0.5rem 0 0; font-weight: 700;">2. Choose the number card for the basket label:</p>
+        <div class="choice-row">
+          ${[3, 5, 6, 10].map(choice => `
+            <button type="button" class="choice-btn" onclick="checkMarketLabel(${choice}, ${basket.count}, '${basket.word}', '${basket.name.toLowerCase()}', this)">
+              ${choice} (${NUMBER_WORDS[choice].toLowerCase()})
+            </button>
+          `).join(``)}
+        </div>
+        <div class="feedback-banner is-neutral" id="market-label-fb">
+          <span>"There are ___ ${basket.name.toLowerCase()}."</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage4Bakery() {
+  const targetOrder = { cookie: 2, cake: 1, bread: 3 };
+  const totalCost = BAKERY_ITEMS.reduce((sum, item) => sum + (appState.bakeryCart[item.id] || 0) * item.price, 0);
+  const totalItems = Object.values(appState.bakeryCart).reduce((a, b) => a + b, 0);
+  const hasSticker = appState.stickers.includes(`bakery`);
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[4].kicker}</p>
+        <h2 class="page-title">${PAGES[4].title}</h2>
+        <p class="page-lead">
+          Read the prices, fill your shopping basket from the list, and practice saying <strong>"How much is it?"</strong>
+          <span class="id-hint">(Baca harga, isi keranjang belanja, dan bayar di kasir!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Croissant` : `Sticker: Croissant`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <div>
+        <div class="shop-grid">
+          ${BAKERY_ITEMS.map(item => {
+            const qty = appState.bakeryCart[item.id] || 0;
+            return `
+            <div class="shop-item-card">
+              ${svgObjectIcon(item.icon, 44)}
+              <strong>${item.name}</strong>
+              <span class="id-hint" style="margin: 0;">(${item.idHint})</span>
+              <span class="price-tag">$${item.price}</span>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <button type="button" class="btn btn-secondary" style="min-width: 44px; padding: 0.3rem;" onclick="adjustBakery('${item.id}', -1)" aria-label="Remove ${item.name}">-</button>
+                <strong style="min-width: 24px; text-align: center;">${qty}</strong>
+                <button type="button" class="btn btn-primary" style="min-width: 44px; padding: 0.3rem;" onclick="adjustBakery('${item.id}', 1)" aria-label="Add ${item.name}">+</button>
+              </div>
+              <button type="button" class="btn btn-audio" style="width: 100%; font-size: 0.78rem;" onclick="speakText('${item.name}. It is ${NUMBER_WORDS[item.price].toLowerCase()} dollars.', this)">
+                <i data-lucide="volume-2" width="14" height="14" aria-hidden="true"></i> Hear Price
+              </button>
+            </div>`;
+          }).join(``)}
+        </div>
+      </div>
+
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card is-leaf-highlight">
+          <h3 class="card-heading">Shopping List Mission <span class="id-hint" style="color: var(--on-primary-container);">(Daftar Belanja)</span></h3>
+          <ul style="margin: 0; padding-left: 1.25rem; font-weight: 700;">
+            <li>2 cookies ($1 each) ${appState.bakeryCart.cookie === 2 ? `&#10003;` : ``}</li>
+            <li>1 cake ($5) ${appState.bakeryCart.cake === 1 ? `&#10003;` : ``}</li>
+            <li>3 pieces of bread ($2 each) ${appState.bakeryCart.bread === 3 ? `&#10003;` : ``}</li>
+          </ul>
+          <div style="background: var(--illus-cream); border-radius: var(--rounded); padding: 0.75rem 1rem; border: var(--border-soft); color: var(--on-surface);">
+            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+              <span>Items in Basket:</span><span>${totalItems}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; color: var(--primary);">
+              <span>Total Price:</span><span>$${totalCost}</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <button type="button" class="btn btn-primary" onclick="checkoutBakery()">Visit Cashier &amp; Pay</button>
+            <button type="button" class="btn btn-secondary" onclick="resetBakery()">Clear Basket</button>
+          </div>
+          <div class="feedback-banner ${appState.bakeryDone ? `is-success` : `is-neutral`}" id="bakery-fb">
+            <span>${appState.bakeryDone ? `Excellent! "Here you are. Thank you!" Total: $13.` : `Select 2 cookies, 1 cake, and 3 pieces of bread!`}</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-heading">Bakery Dialogue <span class="id-hint">(Percakapan)</span></h3>
+          <div class="dialogue-stack">
+            <div class="speech-row">
+              <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 44)}</div>
+              <div class="speech-bubble">
+                <span class="speech-speaker">Baker</span>
+                <p class="speech-text">"Hello! What would you like?"</p>
+              </div>
+            </div>
+            <div class="speech-row is-right">
+              <div class="avatar-badge">${svgCompanionFace(appState.companion, 44)}</div>
+              <div class="speech-bubble is-partner">
+                <span class="speech-speaker">${getCompanionName()}</span>
+                <p class="speech-text">"I would like two cookies, please. How much is it?" — "It is two dollars. Thank you!"</p>
+                <div>
+                  <button type="button" class="btn btn-audio" onclick="speakText('Hello! What would you like? I would like two cookies, please. How much is it? It is two dollars. Thank you!', this)">
+                    <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Hear Conversation
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage5Farm() {
+  const active = FARM_ANIMALS.find(a => a.id === appState.farmActiveAnimal) || FARM_ANIMALS[0];
+  const hasSticker = appState.stickers.includes(`farm`);
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[5].kicker}</p>
+        <h2 class="page-title">${PAGES[5].title}</h2>
+        <p class="page-lead">
+          Tap the farm animals to hear their sounds, then press the English voice button to count how many there are!
+          <span class="id-hint">(Sentuh hewan untuk mendengar suaranya, lalu dengarkan bahasa Inggrisnya!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Red Barn` : `Sticker: Red Barn`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <div class="illus-frame">
+        <svg viewBox="0 0 580 340" role="img" aria-label="Countryside Animal Farm with red barn, pond, cows, ducks, sheep, horses, and pigs">
+          <rect width="580" height="340" fill="var(--illus-sky)"/>
+          <path d="M0 165 Q290 135 580 175 L580 340 L0 340 Z" fill="var(--illus-meadow)"/>
+          <!-- Red Barn -->
+          <g transform="translate(26, 62)">
+            <rect x="8" y="42" width="122" height="82" fill="var(--illus-terracotta)" rx="4"/>
+            <polygon points="0,44 69,4 138,44" fill="var(--illus-brown)"/>
+            <rect x="48" y="72" width="42" height="52" fill="var(--illus-cream)"/>
+            <line x1="48" y1="72" x2="90" y2="124" stroke="var(--illus-brown)" stroke-width="2.5"/>
+            <line x1="90" y1="72" x2="48" y2="124" stroke="var(--illus-brown)" stroke-width="2.5"/>
+          </g>
+          <!-- Duck Pond -->
+          <ellipse cx="452" cy="248" rx="102" ry="48" fill="var(--illus-dusty-blue-soft)" stroke="var(--illus-dusty-blue)" stroke-width="2"/>
+          <!-- Clickable Animal Groups -->
+          <g class="clickable-svg-item" transform="translate(178, 170)" onclick="selectFarmAnimal('cow')" role="button" tabindex="0" aria-label="3 Cows">
+            <rect x="-8" y="-8" width="150" height="60" rx="14" fill="${active.id === `cow` ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.82" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            ${[0, 44, 88].map(ox => `
+              <g transform="translate(${ox}, 4)">
+                <ellipse cx="22" cy="24" rx="16" ry="11" fill="var(--illus-cream)" stroke="var(--on-surface)" stroke-width="1.5"/>
+                <circle cx="18" cy="22" r="4" fill="var(--on-surface)"/>
+                <circle cx="36" cy="18" r="7" fill="var(--illus-cream)" stroke="var(--on-surface)" stroke-width="1.5"/>
+              </g>
+            `).join(``)}
+            <text x="66" y="47" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">3 Cows (Moo!)</text>
+          </g>
+
+          <g class="clickable-svg-item" transform="translate(384, 212)" onclick="selectFarmAnimal('duck')" role="button" tabindex="0" aria-label="4 Ducks">
+            <rect x="-6" y="-6" width="144" height="58" rx="14" fill="${active.id === `duck` ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.82" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            ${[0, 32, 64, 96].map(ox => `
+              <g transform="translate(${ox}, 6)">
+                <ellipse cx="16" cy="20" rx="10" ry="7" fill="var(--illus-mustard)"/>
+                <circle cx="22" cy="12" r="5" fill="var(--primary)"/>
+                <polygon points="26,11 32,13 26,15" fill="var(--illus-terracotta)"/>
+              </g>
+            `).join(``)}
+            <text x="66" y="45" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">4 Ducks (Quack!)</text>
+          </g>
+
+          <g class="clickable-svg-item" transform="translate(32, 232)" onclick="selectFarmAnimal('sheep')" role="button" tabindex="0" aria-label="5 Sheep">
+            <rect x="-6" y="-6" width="166" height="56" rx="14" fill="${active.id === `sheep` ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.82" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            ${[0, 31, 62, 93, 124].map(ox => `
+              <g transform="translate(${ox}, 6)">
+                <circle cx="14" cy="18" r="10" fill="var(--illus-cream)" stroke="var(--outline)" stroke-width="1.5"/>
+                <circle cx="22" cy="18" r="5" fill="var(--on-surface)"/>
+              </g>
+            `).join(``)}
+            <text x="76" y="44" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">5 Sheep (Baa!)</text>
+          </g>
+
+          <g class="clickable-svg-item" transform="translate(230, 266)" onclick="selectFarmAnimal('pig')" role="button" tabindex="0" aria-label="3 Pigs">
+            <rect x="-6" y="-6" width="132" height="52" rx="14" fill="${active.id === `pig` ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.82" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            ${[0, 40, 80].map(ox => `
+              <g transform="translate(${ox}, 4)">
+                <ellipse cx="18" cy="18" rx="13" ry="9" fill="var(--illus-pink)"/>
+                <circle cx="29" cy="16" r="5" fill="var(--illus-pink)"/>
+              </g>
+            `).join(``)}
+            <text x="60" y="40" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">3 Pigs (Oink!)</text>
+          </g>
+
+          <g class="clickable-svg-item" transform="translate(362, 94)" onclick="selectFarmAnimal('horse')" role="button" tabindex="0" aria-label="2 Horses">
+            <rect x="-6" y="-6" width="134" height="58" rx="14" fill="${active.id === `horse` ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.82" stroke="var(--outline-variant)" stroke-width="1.5"/>
+            ${[0, 62].map(ox => `
+              <g transform="translate(${ox}, 4)">
+                <rect x="8" y="16" width="28" height="14" rx="5" fill="var(--illus-brown-light)"/>
+                <rect x="28" y="6" width="10" height="16" rx="3" fill="var(--illus-brown)"/>
+              </g>
+            `).join(``)}
+            <text x="60" y="45" text-anchor="middle" font-family="Nunito Sans" font-size="11" font-weight="800" fill="var(--on-surface)">2 Horses (Neigh!)</text>
+          </g>
+        </svg>
+      </div>
+
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card is-leaf-highlight">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 class="card-heading">${active.count} ${active.name} <span class="id-hint" style="color: var(--on-primary-container);">(${active.idHint})</span></h3>
+            <span class="price-tag">${active.sound}</span>
+          </div>
+          <p style="margin: 0; font-weight: 700;">"There are ${active.word} ${active.name.toLowerCase()}."</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <button type="button" class="btn btn-warm" onclick="playAnimalSoundEffect('${active.id}')">
+              <span>Play Animal Sound (${active.sound})</span>
+            </button>
+            <button type="button" class="btn btn-audio" onclick="speakText('There are ${active.word} ${active.name.toLowerCase()}.', this)">
+              <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i>
+              <span>Hear English</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-heading">Farm Questions <span class="id-hint">(Pertanyaan Peternakan)</span></h3>
+          <p style="margin: 0; font-weight: 700;">1. How many ducks are in the pond?</p>
+          <div class="choice-row">
+            ${[2, 4, 5].map(n => `
+              <button type="button" class="choice-btn ${appState.farmAnsweredCount && n === 4 ? `is-correct` : ``}" onclick="answerFarmQ1(${n}, this)">
+                There are ${NUMBER_WORDS[n].toLowerCase()} ducks
+              </button>
+            `).join(``)}
+          </div>
+          <p style="margin: 0.5rem 0 0; font-weight: 700;">2. Which group has MORE animals: Sheep (5) or Horses (2)?</p>
+          <div class="choice-row">
+            <button type="button" class="choice-btn ${appState.farmAnsweredCompare ? `is-correct` : ``}" onclick="answerFarmQ2(true, this)">Sheep (5)</button>
+            <button type="button" class="choice-btn" onclick="answerFarmQ2(false, this)">Horses (2)</button>
+          </div>
+          <div class="feedback-banner ${appState.farmAnsweredCount && appState.farmAnsweredCompare ? `is-success` : `is-neutral`}" id="farm-fb">
+            <span>${appState.farmAnsweredCount && appState.farmAnsweredCompare ? `Amazing work! You earned the Red Barn Sticker!` : `Answer both questions to earn the Red Barn Sticker!`}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage6Classroom() {
+  const hunts = [
+    { type: `pencil`, target: 5, label: `Can you find 5 pencils?`, idHint: `Temukan 5 pensil di kelas!` },
+    { type: `book`, target: 4, label: `Can you find 4 books?`, idHint: `Temukan 4 buku di kelas!` }
+  ];
+  const h = hunts[appState.classMissionIdx % hunts.length];
+  const foundCount = appState.classFoundIds.length;
+  const solved = foundCount >= h.target;
+  const hasSticker = appState.stickers.includes(`classroom`);
+
+  const pencilCoords = [[86, 172], [116, 172], [234, 210], [344, 168], [472, 216]];
+  const bookCoords = [[164, 162], [192, 162], [386, 156], [420, 216]];
+  const activeCoords = h.type === `pencil` ? pencilCoords : bookCoords;
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[6].kicker}</p>
+        <h2 class="page-title">${PAGES[6].title}</h2>
+        <p class="page-lead">
+          Play the classroom scavenger hunt, then look around your real room to connect English numbers to your world!
+          <span class="id-hint">(Cari benda di kelas dan hubungkan dengan ruanganmu!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Pencil` : `Sticker: Pencil`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 class="card-heading">Scavenger Hunt: "${h.label}"</h3>
+          <button type="button" class="btn btn-audio" onclick="speakText('${h.label}', this)">
+            <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Listen
+          </button>
+        </div>
+        <p style="margin: 0;"><span class="id-hint">${h.idHint}</span></p>
+
+        <div class="illus-frame">
+          <svg viewBox="0 0 580 300" role="img" aria-label="Classroom Scavenger Hunt with desks, chalkboard, pencils, and books">
+            <rect width="580" height="300" fill="var(--illus-sky-warm)"/>
+            <!-- Chalkboard -->
+            <rect x="130" y="24" width="320" height="96" rx="6" fill="var(--primary)" stroke="var(--illus-brown)" stroke-width="5"/>
+            <text x="290" y="66" text-anchor="middle" font-family="Literata" font-size="22" font-weight="700" fill="var(--illus-cream)">1  2  3  4  5  6</text>
+            <text x="290" y="94" text-anchor="middle" font-family="Nunito Sans" font-size="13" font-weight="700" fill="var(--tertiary-container)">How many pencils are there?</text>
+            <!-- Desks & Chairs -->
+            <rect x="52" y="186" width="180" height="18" rx="4" fill="var(--illus-brown-light)"/>
+            <rect x="68" y="204" width="12" height="62" fill="var(--illus-brown)"/>
+            <rect x="206" y="204" width="12" height="62" fill="var(--illus-brown)"/>
+            <rect x="316" y="186" width="190" height="18" rx="4" fill="var(--illus-brown-light)"/>
+            <rect x="334" y="204" width="12" height="62" fill="var(--illus-brown)"/>
+            <rect x="478" y="204" width="12" height="62" fill="var(--illus-brown)"/>
+            <!-- Clickable Targets -->
+            ${activeCoords.map((pos, idx) => {
+              const found = appState.classFoundIds.includes(idx);
+              return `
+              <g class="clickable-svg-item ${found ? `is-counted` : ``}" transform="translate(${pos[0]}, ${pos[1]})" onclick="tapClassObject(${idx}, ${h.target})" role="button" tabindex="0" aria-label="Find ${h.type} ${idx + 1}">
+                <circle cx="14" cy="14" r="21" fill="${found ? `var(--tertiary-container)` : `var(--illus-cream)`}" opacity="0.88" stroke="${found ? `var(--primary)` : `var(--outline)`}" stroke-width="2"/>
+                ${h.type === `pencil`
+                  ? `<rect x="10" y="4" width="7" height="19" rx="1" fill="var(--illus-mustard)" stroke="var(--on-surface)" stroke-width="1"/><polygon points="10,23 17,23 13.5,28" fill="var(--illus-terracotta)"/>`
+                  : `<rect x="4" y="5" width="20" height="18" rx="2" fill="var(--illus-dusty-blue)" stroke="var(--on-surface)" stroke-width="1.2"/><line x1="8" y1="5" x2="8" y2="23" stroke="var(--illus-cream)" stroke-width="2"/>`
+                }
+              </g>`;
+            }).join(``)}
+          </svg>
+        </div>
+
+        <div class="feedback-banner ${solved ? `is-success` : `is-neutral`}">
+          <span>${solved ? `Great! You found ${NUMBER_WORDS[h.target].toLowerCase()} ${h.type}s!` : `Found ${foundCount} of ${h.target} ${h.type}s`}</span>
+          <button type="button" class="btn btn-secondary" onclick="switchClassHunt()">Next Hunt</button>
+        </div>
+      </div>
+
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card is-leaf-highlight">
+          <h3 class="card-heading">Real-World Task: Look Around You!</h3>
+          <p style="margin: 0;">Look around your real classroom or room right now. How many chairs can you see? <span class="id-hint" style="color: var(--on-primary-container);">(Lihat sekelilingmu! Berapa kursi yang ada?)</span></p>
+          <div class="field-group">
+            <label class="field-label" for="real-chairs-input">Number of chairs I can see:</label>
+            <div style="display: flex; gap: 0.5rem; align-items: end;">
+              <input id="real-chairs-input" type="number" min="0" max="99" class="text-input" style="max-width: 120px;" value="${appState.realChairs}" oninput="updateRealChairs(this.value)">
+              <button type="button" class="btn btn-primary" onclick="speakRealChairs(this)">
+                <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i>
+                <span>Say My Sentence</span>
+              </button>
+            </div>
+          </div>
+          <p style="margin: 0; font-weight: 800;" id="real-chairs-sentence">"I can see ${appState.realChairs || 0} chairs in my room!"</p>
+        </div>
+
+        <div class="card">
+          <h3 class="card-heading">Classroom Phrases <span class="id-hint">(Ungkapan Kelas)</span></h3>
+          <p style="margin: 0;"><strong>"How many pencils are there?"</strong> &rarr; "There are six pencils."</p>
+          <p style="margin: 0;"><strong>"How many books do you have?"</strong> &rarr; "I have three books."</p>
+          <div>
+            <button type="button" class="btn btn-audio" onclick="speakText('How many books do you have? I have three books.', this)">
+              <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Listen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage7ToyShop() {
+  const spent = TOY_ITEMS.reduce((sum, t) => sum + (appState.toyBasket[t.id] || 0) * t.price, 0);
+  const remaining = 10 - spent;
+  const countToys = Object.values(appState.toyBasket).reduce((a, b) => a + b, 0);
+  const hasSticker = appState.stickers.includes(`toyshop`);
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[7].kicker}</p>
+        <h2 class="page-title">${PAGES[7].title}</h2>
+        <p class="page-lead">
+          You have <strong>$10</strong> to spend! Practice the shopkeeper chat and choose your favorite toys within budget!
+          <span class="id-hint">(Kamu punya $10. Pilih mainan sesuai anggaranmu!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Teddy Bear` : `Sticker: Teddy Bear`}</span>
+      </div>
+    </div>
+
+    <div class="spread-grid">
+      <div>
+        <div class="shop-grid">
+          ${TOY_ITEMS.map(toy => {
+            const qty = appState.toyBasket[toy.id] || 0;
+            const cantAfford = remaining < toy.price;
+            return `
+            <div class="shop-item-card">
+              ${svgObjectIcon(toy.icon, 42)}
+              <strong>${toy.name}</strong>
+              <span class="id-hint" style="margin: 0;">(${toy.idHint})</span>
+              <span class="price-tag">$${toy.price}</span>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" class="btn btn-secondary" style="min-width: 44px; padding: 0.3rem;" onclick="adjustToy('${toy.id}', -1)" aria-label="Remove ${toy.name}">-</button>
+                <strong style="min-width: 24px; text-align: center;">${qty}</strong>
+                <button type="button" class="btn btn-primary" style="min-width: 44px; padding: 0.3rem;" ${cantAfford ? `disabled` : ``} onclick="adjustToy('${toy.id}', 1)" aria-label="Add ${toy.name}">+</button>
+              </div>
+            </div>`;
+          }).join(``)}
+        </div>
+      </div>
+
+      <div style="display: grid; gap: var(--space-md);">
+        <div class="card is-leaf-highlight">
+          <h3 class="card-heading">My $10 Budget Basket</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; background: var(--illus-cream); padding: 0.875rem; border-radius: var(--rounded); border: var(--border-soft); color: var(--on-surface);">
+            <div>
+              <span class="chapter-strip-label">Total Spent</span>
+              <div style="font-family: var(--font-headline); font-size: 1.65rem; font-weight: 700; color: var(--primary);">$${spent}</div>
+            </div>
+            <div>
+              <span class="chapter-strip-label">Money Left</span>
+              <div style="font-family: var(--font-headline); font-size: 1.65rem; font-weight: 700; color: var(--tertiary);">$${remaining}</div>
+            </div>
+          </div>
+          <p style="margin: 0; font-weight: 700;">Selected toys: ${countToys} ${countToys === 1 ? `toy` : `toys`}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <button type="button" class="btn btn-primary" onclick="buyToys()">Buy Selected Toys</button>
+            <button type="button" class="btn btn-secondary" onclick="clearToys()">Reset Basket</button>
+          </div>
+          <div class="feedback-banner ${appState.toyBudgetDone ? `is-success` : `is-neutral`}" id="toy-fb">
+            <span>${appState.toyBudgetDone ? `Amazing choices! "It costs $${spent}. Here you are!"` : `Add toys up to $10, then click Buy Selected Toys!`}</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-heading">Complete the Shop Dialogue</h3>
+          <div class="dialogue-stack">
+            <div class="speech-row">
+              <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 44)}</div>
+              <div class="speech-bubble">
+                <span class="speech-speaker">Toy Shopkeeper</span>
+                <p class="speech-text">"Hello! Can I help you?" <span class="id-hint">(Ada yang bisa dibantu?)</span></p>
+              </div>
+            </div>
+            <div class="choice-row">
+              <button type="button" class="choice-btn ${appState.toyDialogueStep >= 1 ? `is-correct` : ``}" onclick="chooseToyReply(true, this)">
+                "I want two balls, please. How much is it?"
+              </button>
+              <button type="button" class="choice-btn" onclick="chooseToyReply(false, this)">
+                "Goodbye, see you!"
+              </button>
+            </div>
+            ${appState.toyDialogueStep >= 1 ? `
+              <div class="speech-row">
+                <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 44)}</div>
+                <div class="speech-bubble is-partner">
+                  <span class="speech-speaker">Toy Shopkeeper</span>
+                  <p class="speech-text">"They cost four dollars. Here you are!"</p>
+                </div>
+              </div>
+            ` : ``}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage8Tower() {
+  const tab = appState.towerTab;
+  const builtNum = appState.towerTens * 10 + appState.towerOnes;
+  const hasSticker = appState.stickers.includes(`tower`);
+
+  function numberToWords20to99(n) {
+    const tensWords = [``, ``, `twenty`, `thirty`, `forty`, `fifty`, `sixty`, `seventy`, `eighty`, `ninety`];
+    if (n === 100) return `one hundred`;
+    if (n <= 20) return NUMBER_WORDS[n].toLowerCase();
+    const t = Math.floor(n / 10);
+    const o = n % 10;
+    return o === 0 ? tensWords[t] : `${tensWords[t]}-${NUMBER_WORDS[o].toLowerCase()}`;
+  }
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[8].kicker}</p>
+        <h2 class="page-title">${PAGES[8].title}</h2>
+        <p class="page-lead">
+          Climb the magical Clock Tower step by step: <strong>1–20</strong>, <strong>21–50</strong>, and <strong>51–100</strong>!
+          <span class="id-hint">(Pelajari angka 1–100 secara bertahap!)</span>
+        </p>
+      </div>
+      <div class="sticker-status-pill ${hasSticker ? `is-earned` : ``}">
+        <i data-lucide="award" width="16" height="16" aria-hidden="true"></i>
+        <span>${hasSticker ? `Sticker Earned: Tower Key` : `Sticker: Tower Key`}</span>
+      </div>
+    </div>
+
+    <div class="subtabs" role="tablist" aria-label="Number Tower Levels">
+      <button type="button" class="subtab-btn ${tab === `A` ? `is-active` : ``}" onclick="setTowerTab('A')">Stage A: 1–20 Review</button>
+      <button type="button" class="subtab-btn ${tab === `B` ? `is-active` : ``}" onclick="setTowerTab('B')">Stage B: 21–50 Tens &amp; Ones</button>
+      <button type="button" class="subtab-btn ${tab === `C` ? `is-active` : ``}" onclick="setTowerTab('C')">Stage C: 51–100 Treasure Hunt</button>
+    </div>
+
+    ${tab === `A` ? `
+      <div class="spread-grid">
+        <div class="card">
+          <h3 class="card-heading">Missing Number Sequence (1–20)</h3>
+          <p style="margin: 0;">Complete the clock tower steps: <strong>14, 15, __, 17, 18</strong> <span class="id-hint">(Angka berapa yang hilang?)</span></p>
+          <div class="choice-row">
+            ${[13, 16, 19].map(n => `
+              <button type="button" class="choice-btn ${appState.towerMissingAns === String(n) && n === 16 ? `is-correct` : ``}" onclick="answerTowerMissing(${n}, this)">
+                ${n} (${NUMBER_WORDS[n].toLowerCase()})
+              </button>
+            `).join(``)}
+          </div>
+          <div class="feedback-banner ${appState.towerMissingAns === `16` ? `is-success` : `is-neutral`}" id="tower-a-fb">
+            <span>${appState.towerMissingAns === `16` ? `Excellent! 14, 15, sixteen, 17, 18!` : `Tap the missing number!`}</span>
+          </div>
+        </div>
+        <div class="card is-leaf-highlight">
+          <h3 class="card-heading">Counting Forward &amp; Backward</h3>
+          <p style="margin: 0;">Listen and count with Lily and Oliver!</p>
+          <div class="choice-row">
+            <button type="button" class="btn btn-audio" onclick="speakText('Eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty!', this)">
+              <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i> Count 11–20 Forward
+            </button>
+            <button type="button" class="btn btn-audio" onclick="speakText('Ten, nine, eight, seven, six, five, four, three, two, one!', this)">
+              <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i> Count 10–1 Backward
+            </button>
+          </div>
+        </div>
+      </div>
+    ` : tab === `B` ? `
+      <div class="spread-grid">
+        <div class="card">
+          <h3 class="card-heading">Build Numbers with Tens &amp; Ones (21–50)</h3>
+          <p style="margin: 0;">Use the + and - buttons to build numbers like <strong>35 = thirty-five</strong>! <span class="id-hint">(Susun puluhan dan satuan!)</span></p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+            <div class="card is-cream" style="padding: var(--space-md);">
+              <span class="chapter-strip-label">Tens (Puluhan)</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn btn-secondary" onclick="adjustTensOnes('tens', -1)">-</button>
+                <strong style="font-size: 1.5rem; min-width: 28px; text-align: center;">${appState.towerTens}</strong>
+                <button type="button" class="btn btn-primary" onclick="adjustTensOnes('tens', 1)">+</button>
+              </div>
+            </div>
+            <div class="card is-cream" style="padding: var(--space-md);">
+              <span class="chapter-strip-label">Ones (Satuan)</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn btn-secondary" onclick="adjustTensOnes('ones', -1)">-</button>
+                <strong style="font-size: 1.5rem; min-width: 28px; text-align: center;">${appState.towerOnes}</strong>
+                <button type="button" class="btn btn-primary" onclick="adjustTensOnes('ones', 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="blocks-tray" aria-label="Visual tens rods and ones cubes">
+            ${Array.from({ length: appState.towerTens }, () => `<div class="ten-rod">${`<span></span>`.repeat(10)}</div>`).join(``)}
+            ${Array.from({ length: appState.towerOnes }, () => `<div class="one-cube"></div>`).join(``)}
+          </div>
+        </div>
+        <div class="card is-leaf-highlight">
+          <span class="chapter-strip-label">You Built</span>
+          <div class="big-numeral">${builtNum}</div>
+          <p class="number-word-title" style="text-transform: capitalize;">${numberToWords20to99(builtNum)}</p>
+          <p style="margin: 0;">${appState.towerTens} tens + ${appState.towerOnes} ones = <strong>${builtNum}</strong></p>
+          <div>
+            <button type="button" class="btn btn-audio" onclick="speakText('${builtNum}. ${numberToWords20to99(builtNum)}.', this)">
+              <i data-lucide="volume-2" width="16" height="16" aria-hidden="true"></i>
+              <span>Hear "${numberToWords20to99(builtNum)}"</span>
+            </button>
+          </div>
+          <div class="feedback-banner is-neutral" style="margin-top: auto;">
+            <span>Try building <strong>48</strong> (forty-eight) or <strong>21</strong> (twenty-one)!</span>
+          </div>
+        </div>
+      </div>
+    ` : `
+      <div class="spread-grid">
+        <div class="card">
+          <h3 class="card-heading">Treasure Hunt Path (51–100)</h3>
+          <p style="margin: 0;">Tap <strong>75 (seventy-five)</strong> on the Number Tower path to unlock the Tower Key Sticker!</p>
+          <div class="number-grid-buttons">
+            ${[55, 60, 68, 75, 82, 90, 95, 100].map(n => `
+              <button type="button" class="num-chip ${n === 75 && hasSticker ? `is-active` : ``}" onclick="checkTowerTreasure(${n}, this)">${n}</button>
+            `).join(``)}
+          </div>
+          <div class="choice-row">
+            <button type="button" class="btn btn-audio" onclick="speakText('Sixty, seventy-five, one hundred!', this)">
+              <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Hear 60, 75, 100
+            </button>
+          </div>
+          <div class="feedback-banner ${hasSticker ? `is-success` : `is-neutral`}" id="tower-c-fb">
+            <span>${hasSticker ? `You unlocked the Clock Tower Key Sticker! 75 = seventy-five!` : `Find seventy-five (75) on the path!`}</span>
+          </div>
+        </div>
+        <div class="card is-leaf-highlight">
+          <h3 class="card-heading">Sort Smallest to Largest</h3>
+          <p style="margin: 0;">Which order goes from smallest to largest? <span class="id-hint" style="color: var(--on-primary-container);">(Dari terkecil ke terbesar)</span></p>
+          <div class="choice-row">
+            <button type="button" class="choice-btn" onclick="checkTowerSort(false, this)">84, 52, 100, 67</button>
+            <button type="button" class="choice-btn" onclick="checkTowerSort(true, this)">52, 67, 84, 100</button>
+          </div>
+          <div class="feedback-banner is-neutral" id="tower-sort-fb">
+            <span>Tap the correct ascending order!</span>
+          </div>
+        </div>
+      </div>
+    `}
+  `;
+}
+
+function renderPage9Missions() {
+  const routines = [
+    { time: `6 o'clock`, activity: `Wake up at 6 o'clock`, idHint: `Bangun tidur jam 6`, hourAngle: 180 },
+    { time: `7 o'clock`, activity: `Go to school at 7 o'clock`, idHint: `Berangkat sekolah jam 7`, hourAngle: 210 },
+    { time: `12 o'clock`, activity: `Have lunch at 12 o'clock`, idHint: `Makan siang jam 12`, hourAngle: 0 }
+  ];
+  const rt = routines[appState.routineIdx % routines.length];
+  const unlockedCount = appState.stickers.length;
+
+  return `
+    <div class="page-header-row">
+      <div>
+        <p class="page-kicker">${PAGES[9].kicker}</p>
+        <h2 class="page-title">${PAGES[9].title}</h2>
+        <p class="page-lead">
+          Use English numbers in your own life, chat with Lily &amp; Oliver, and view your Number Town Sticker Album!
+          <span class="id-hint">(Gunakan angka bahasa Inggris dalam kehidupan sehari-hari!)</span>
+        </p>
+      </div>
+      <button type="button" class="btn btn-secondary" id="reset-progress-btn" onclick="handleResetProgress(this)">
+        <i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i>
+        <span>Reset Adventure</span>
+      </button>
+    </div>
+
+    <div class="card-grid">
+      <!-- Mission 1: My Age -->
+      <div class="card">
+        <span class="chapter-strip-label">Mission 1 · My Age</span>
+        <h3 class="card-heading">How old are you?</h3>
+        <div class="field-group">
+          <label class="field-label" for="age-select">Select your age <span class="id-hint">(Umurmu)</span>:</label>
+          <select id="age-select" class="text-input" onchange="updateUserAge(this.value)">
+            ${[6, 7, 8, 9, 10, 11, 12].map(a => `<option value="${a}" ${appState.userAge === a ? `selected` : ``}>${a} years old</option>`).join(``)}
+          </select>
+        </div>
+        <p style="margin: 0; font-weight: 800; color: var(--primary);">"I am ${appState.userAge} years old!"</p>
+        <div>
+          <button type="button" class="btn btn-audio" onclick="speakText('How old are you? I am ${appState.userAge} years old!', this)">
+            <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Say My Age
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission 2: Daily Routine -->
+      <div class="card">
+        <span class="chapter-strip-label">Mission 2 · Daily Routine</span>
+        <h3 class="card-heading">${rt.activity}</h3>
+        <div style="display: flex; align-items: center; gap: var(--space-md);">
+          <svg width="72" height="72" viewBox="0 0 80 80" aria-hidden="true">
+            <circle cx="40" cy="40" r="34" fill="var(--illus-cream)" stroke="var(--illus-brown)" stroke-width="3"/>
+            <line x1="40" y1="40" x2="40" y2="15" stroke="var(--illus-terracotta)" stroke-width="3" stroke-linecap="round"/>
+            <line x1="40" y1="40" x2="40" y2="22" stroke="var(--on-surface)" stroke-width="4" stroke-linecap="round" transform="rotate(${rt.hourAngle} 40 40)"/>
+            <circle cx="40" cy="40" r="3" fill="var(--on-surface)"/>
+          </svg>
+          <div>
+            <p style="margin: 0; font-weight: 700;">${rt.time}</p>
+            <p style="margin: 0;"><span class="id-hint">${rt.idHint}</span></p>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          ${routines.map((r, i) => `
+            <button type="button" class="subtab-btn ${i === appState.routineIdx ? `is-active` : ``}" onclick="setRoutine(${i})">${r.time}</button>
+          `).join(``)}
+        </div>
+      </div>
+
+      <!-- Mission 3: My Family -->
+      <div class="card">
+        <span class="chapter-strip-label">Mission 3 · My Family</span>
+        <h3 class="card-heading">How many people are in your family?</h3>
+        <div class="field-group">
+          <label class="field-label" for="family-input">People in my family <span class="id-hint">(Anggota keluarga)</span>:</label>
+          <input id="family-input" type="number" min="1" max="20" class="text-input" value="${appState.familyCount}" oninput="updateFamilyCount(this.value)">
+        </div>
+        <p style="margin: 0; font-weight: 800; color: var(--primary);">"There are ${appState.familyCount} people in my family."</p>
+        <div>
+          <button type="button" class="btn btn-audio" onclick="speakText('There are ${appState.familyCount} people in my family.', this)">
+            <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Listen
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="spread-grid is-equal">
+      <!-- Mission 4: Chat with Lily & Oliver -->
+      <div class="card">
+        <span class="chapter-strip-label">Mission 4 · Town Chat</span>
+        <h3 class="card-heading">Messaging with ${getPartnerName()}</h3>
+        <div class="dialogue-stack">
+          <div class="speech-row">
+            <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 44)}</div>
+            <div class="speech-bubble">
+              <span class="speech-speaker">${getPartnerName()}</span>
+              <p class="speech-text">"Hi, ${getCompanionName()}! How many apples do you have?"</p>
+            </div>
+          </div>
+          <div class="speech-row is-right">
+            <div class="avatar-badge">${svgCompanionFace(appState.companion, 44)}</div>
+            <div class="speech-bubble is-partner">
+              <span class="speech-speaker">${getCompanionName()} (You)</span>
+              <p class="speech-text">"I have five apples! They are five dollars."</p>
+            </div>
+          </div>
+          ${appState.chatStep >= 1 ? `
+            <div class="speech-row">
+              <div class="avatar-badge is-green">${svgCompanionFace(appState.companion === `lily` ? `oliver` : `lily`, 44)}</div>
+              <div class="speech-bubble">
+                <span class="speech-speaker">${getPartnerName()}</span>
+                <p class="speech-text">"Can I buy two apples? Here is two dollars!"</p>
+              </div>
+            </div>
+          ` : ``}
+        </div>
+        <div class="choice-row">
+          <button type="button" class="btn btn-primary" onclick="advanceChat()">
+            ${appState.chatStep === 0 ? `Reply: "Sure! Here you are!"` : `Listen to Full Chat`}
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission 5: My Little Shopping List -->
+      <div class="card is-cream">
+        <span class="chapter-strip-label">Mission 5 · My Little Shopping List</span>
+        <h3 class="card-heading">Build Your Shopping List</h3>
+        <div style="display: grid; gap: 0.5rem;">
+          ${[
+            { key: `apples`, label: `Apples` },
+            { key: `bananas`, label: `Bananas` },
+            { key: `milk`, label: `Bottles of milk` }
+          ].map(item => `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong>${item.label}</strong>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <button type="button" class="btn btn-secondary" style="min-width: 44px; padding: 0.25rem;" onclick="adjustMyList('${item.key}', -1)">-</button>
+                <strong style="min-width: 24px; text-align: center;">${appState.myShopList[item.key]}</strong>
+                <button type="button" class="btn btn-primary" style="min-width: 44px; padding: 0.25rem;" onclick="adjustMyList('${item.key}', 1)">+</button>
+              </div>
+            </div>
+          `).join(``)}
+        </div>
+        <button type="button" class="btn btn-audio" onclick="speakText('My shopping list: ${appState.myShopList.apples} apples, ${appState.myShopList.bananas} bananas, and ${appState.myShopList.milk} bottles of milk.', this)">
+          <i data-lucide="volume-2" width="15" height="15" aria-hidden="true"></i> Read My List Aloud
+        </button>
+      </div>
+    </div>
+
+    <!-- Sticker Album & Achievement Certificate -->
+    <div class="card is-leaf-highlight">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem;">
+        <div>
+          <span class="chapter-strip-label" style="color: var(--on-primary-container);">Number Town Achievement Certificate</span>
+          <h3 class="card-heading" style="font-size: 1.5rem;">Sticker Collection (${unlockedCount} / 7 Stickers &middot; ${appState.stars} Stars)</h3>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="downloadCertificate()">
+          <i data-lucide="download" width="17" height="17" aria-hidden="true"></i>
+          <span>Download Certificate</span>
+        </button>
+      </div>
+
+      <div class="sticker-album">
+        ${STICKERS.map(st => {
+          const unlocked = appState.stickers.includes(st.id);
+          return `
+          <div class="sticker-slot ${unlocked ? `is-unlocked` : ``}">
+            <svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="21" fill="${unlocked ? `var(${st.color})` : `var(--surface-container-high)`}" stroke="var(--on-surface)" stroke-width="1.5"/>
+              <text x="24" y="29" text-anchor="middle" font-size="18" font-weight="800" fill="var(--illus-cream)">${unlocked ? `&#9733;` : `?`}</text>
+            </svg>
+            <strong style="font-size: 0.9rem;">${st.label}</strong>
+            <span style="font-size: 0.78rem;">${st.chapter}</span>
+          </div>`;
+        }).join(``)}
+      </div>
+    </div>
+  `;
+}
+
+// =========================================================================
+// 7. INTERACTIVE HANDLERS (ALL HOISTED FUNCTION DECLARATIONS)
+// =========================================================================
+function updateHeaderUI() {
+  const avatar = document.getElementById(`header-companion-avatar`);
+  if (avatar) avatar.innerHTML = svgCompanionFace(appState.companion, 44);
+
+  const starsEl = document.getElementById(`stat-stars`);
+  if (starsEl) {
+    const sp = starsEl.querySelector(`span`);
+    if (sp) sp.textContent = `${appState.stars} Stars`;
+  }
+
+  const stickersEl = document.getElementById(`stat-stickers`);
+  if (stickersEl) {
+    const sp = stickersEl.querySelector(`span`);
+    if (sp) sp.textContent = `${appState.stickers.length} / 7 Stickers`;
+  }
+
+  const soundBtn = document.getElementById(`sound-toggle-btn`);
+  if (soundBtn) {
+    const sp = soundBtn.querySelector(`span`);
+    if (sp) sp.textContent = appState.soundEnabled ? `Voice: On` : `Voice: Off`;
+  }
+
+  const strip = document.getElementById(`chapter-cells`);
+  if (strip) {
+    strip.innerHTML = PAGES.map((p, i) => {
+      const isCur = i === appState.currentPage;
+      const isDone = appState.completedPages.includes(i);
+      return `<button type="button" class="chapter-cell ${isCur ? `is-current` : isDone ? `is-done` : ``}" onclick="goToPage(${i})">${p.short}</button>`;
+    }).join(``);
+  }
+
+  const prevBtn = document.getElementById(`btn-prev-page`);
+  const nextBtn = document.getElementById(`btn-next-page`);
+  const prevLbl = document.getElementById(`prev-page-label`);
+  const nextLbl = document.getElementById(`next-page-label`);
+  const counter = document.getElementById(`page-counter-badge`);
+
+  if (counter) counter.textContent = `Page ${appState.currentPage + 1} of ${PAGES.length}`;
+  if (prevBtn) prevBtn.disabled = appState.currentPage === 0;
+  if (nextBtn) nextBtn.disabled = appState.currentPage === PAGES.length - 1;
+  if (prevLbl) prevLbl.textContent = appState.currentPage > 0 ? `Previous: ${PAGES[appState.currentPage - 1].title}` : `First Page`;
+  if (nextLbl) nextLbl.textContent = appState.currentPage < PAGES.length - 1 ? `Next: ${PAGES[appState.currentPage + 1].title}` : `End of Book`;
+}
+
+function renderCurrentPage() {
+  const stage = document.getElementById(`storybook-stage`);
+  if (!stage) return;
+
+  const renderers = [
+    renderPage0Opening,
+    renderPage1Map,
+    renderPage2Garden,
+    renderPage3Market,
+    renderPage4Bakery,
+    renderPage5Farm,
+    renderPage6Classroom,
+    renderPage7ToyShop,
+    renderPage8Tower,
+    renderPage9Missions
+  ];
+
+  const fn = renderers[appState.currentPage] || renderPage0Opening;
+  stage.innerHTML = fn();
+  updateHeaderUI();
+
+  if (window.lucide && typeof window.lucide.createIcons === `function`) {
+    try { window.lucide.createIcons(); } catch (e) {}
+  }
+}
+
+function goToPage(index) {
+  if (index < 0 || index >= PAGES.length) return;
+  appState.currentPage = index;
+  renderCurrentPage();
+  saveAppState();
+  window.scrollTo({ top: 0, behavior: `smooth` });
+}
+
+function nextPage() {
+  goToPage(appState.currentPage + 1);
+}
+
+function prevPage() {
+  goToPage(appState.currentPage - 1);
+}
+
+function selectCompanion(who) {
+  appState.companion = who;
+  playTone(587.33, 0.14);
+  speakText(`Hi! I am ${who === `oliver` ? `Oliver` : `Lily`}! Let us explore Number Town!`);
+  renderCurrentPage();
+  saveAppState();
+}
+
+// Garden Handlers
+function selectGardenNumber(n) {
+  appState.gardenSelectedNum = n;
+  appState.gardenTappedTokens = 0;
+  speakText(`${NUMBER_WORDS[n]}. ${n} ${GARDEN_LESSONS[n].plural}.`);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function tapGardenToken(idx) {
+  if (idx + 1 > appState.gardenTappedTokens) {
+    appState.gardenTappedTokens = idx + 1;
+  } else {
+    appState.gardenTappedTokens = idx + 1;
+  }
+  playCountChime(idx);
+  speakText(NUMBER_WORDS[idx + 1]);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function tapGardenMissionItem(itemIdx, target) {
+  if (!appState.gardenMissionTapped.includes(itemIdx)) {
+    if (appState.gardenMissionTapped.length < target) {
+      appState.gardenMissionTapped.push(itemIdx);
+      const countNow = appState.gardenMissionTapped.length;
+      playCountChime(countNow - 1);
+      speakText(NUMBER_WORDS[countNow]);
+      if (countNow === target) {
+        awardSticker(`garden`, 2);
+      }
+      renderCurrentPage();
+      saveAppState();
+    }
+  }
+}
+
+function nextGardenMission() {
+  appState.gardenMissionIdx = (appState.gardenMissionIdx + 1) % 3;
+  appState.gardenMissionTapped = [];
+  renderCurrentPage();
+  saveAppState();
+}
+
+// Market Handlers
+function selectMarketBasket(idx) {
+  appState.marketSelectedIdx = idx;
+  appState.marketBasketTapped = 0;
+  renderCurrentPage();
+  saveAppState();
+}
+
+function tapMarketItem(idx) {
+  appState.marketBasketTapped = idx + 1;
+  playCountChime(idx);
+  speakText(NUMBER_WORDS[idx + 1]);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function checkMarketLabel(chosen, expected, word, name, btn) {
+  const fb = document.getElementById(`market-label-fb`);
+  if (chosen === expected) {
+    if (btn) btn.classList.add(`is-correct`);
+    if (fb) {
+      fb.className = `feedback-banner is-success`;
+      fb.innerHTML = `<span>Excellent counting! "There are ${word} ${name}."</span>`;
+    }
+    speakText(`There are ${word} ${name}.`);
+    awardSticker(`market`, 3);
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Almost there! Let us count the basket again!</span>`;
+    }
+  }
+}
+
+function answerMarketCompare(isCorrect, btn) {
+  const fb = document.getElementById(`market-compare-fb`);
+  if (isCorrect) {
+    appState.marketCompareAnswered = true;
+    addStar(1);
+    playSuccessFanfare();
+    speakText(`You got it! Ten oranges is more than five apples.`);
+    renderCurrentPage();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Let us compare 5 and 10 again! Which number is bigger?</span>`;
+    }
+  }
+}
+
+// Bakery Handlers
+function adjustBakery(id, delta) {
+  const cur = appState.bakeryCart[id] || 0;
+  appState.bakeryCart[id] = Math.max(0, Math.min(9, cur + delta));
+  playTone(delta > 0 ? 587.33 : 440, 0.1);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function resetBakery() {
+  appState.bakeryCart = { cookie: 0, bread: 0, donut: 0, milk: 0, cake: 0 };
+  appState.bakeryDone = false;
+  renderCurrentPage();
+  saveAppState();
+}
+
+function checkoutBakery() {
+  const c = appState.bakeryCart;
+  const fb = document.getElementById(`bakery-fb`);
+  if (c.cookie === 2 && c.cake === 1 && c.bread === 3) {
+    appState.bakeryDone = true;
+    awardSticker(`bakery`, 4);
+    speakText(`Here you are! That is thirteen dollars. Thank you!`);
+    renderCurrentPage();
+  } else {
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Check your list: we need 2 cookies, 1 cake, and 3 pieces of bread!</span>`;
+    }
+  }
+}
+
+// Farm Handlers
+function selectFarmAnimal(id) {
+  appState.farmActiveAnimal = id;
+  playAnimalSoundEffect(id);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function answerFarmQ1(n, btn) {
+  const fb = document.getElementById(`farm-fb`);
+  if (n === 4) {
+    appState.farmAnsweredCount = true;
+    speakText(`There are four ducks!`);
+    if (appState.farmAnsweredCompare) awardSticker(`farm`, 5);
+    else playTone(659.25, 0.18);
+    renderCurrentPage();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Count the yellow and green ducks in the pond again!</span>`;
+    }
+  }
+}
+
+function answerFarmQ2(isCorrect, btn) {
+  const fb = document.getElementById(`farm-fb`);
+  if (isCorrect) {
+    appState.farmAnsweredCompare = true;
+    speakText(`Five sheep is more than two horses!`);
+    if (appState.farmAnsweredCount) awardSticker(`farm`, 5);
+    else playTone(659.25, 0.18);
+    renderCurrentPage();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Almost there! Compare 5 sheep and 2 horses.</span>`;
+    }
+  }
+}
+
+// Classroom Handlers
+function tapClassObject(idx, target) {
+  if (!appState.classFoundIds.includes(idx)) {
+    appState.classFoundIds.push(idx);
+    const now = appState.classFoundIds.length;
+    playCountChime(now - 1);
+    speakText(NUMBER_WORDS[now]);
+    if (now >= target) {
+      awardSticker(`classroom`, 6);
+    }
+    renderCurrentPage();
+    saveAppState();
+  }
+}
+
+function switchClassHunt() {
+  appState.classMissionIdx = (appState.classMissionIdx + 1) % 2;
+  appState.classFoundIds = [];
+  renderCurrentPage();
+  saveAppState();
+}
+
+function updateRealChairs(val) {
+  appState.realChairs = val;
+  const el = document.getElementById(`real-chairs-sentence`);
+  if (el) el.textContent = `"I can see ${val || 0} chairs in my room!"`;
+  saveAppState();
+}
+
+function speakRealChairs(btn) {
+  addStar(1);
+  speakText(`I can see ${appState.realChairs || 0} chairs in my room!`, btn);
+}
+
+// Toy Shop Handlers
+function adjustToy(id, delta) {
+  const cur = appState.toyBasket[id] || 0;
+  const toy = TOY_ITEMS.find(t => t.id === id);
+  const spent = TOY_ITEMS.reduce((sum, t) => sum + (appState.toyBasket[t.id] || 0) * t.price, 0);
+  if (delta > 0 && toy && spent + toy.price > 10) return;
+  appState.toyBasket[id] = Math.max(0, cur + delta);
+  playTone(delta > 0 ? 659.25 : 440, 0.1);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function clearToys() {
+  appState.toyBasket = {};
+  appState.toyBudgetDone = false;
+  renderCurrentPage();
+  saveAppState();
+}
+
+function buyToys() {
+  const spent = TOY_ITEMS.reduce((sum, t) => sum + (appState.toyBasket[t.id] || 0) * t.price, 0);
+  const fb = document.getElementById(`toy-fb`);
+  if (spent > 0 && spent <= 10) {
+    appState.toyBudgetDone = true;
+    awardSticker(`toyshop`, 7);
+    speakText(`Great shopping! It costs ${spent} dollars. Here you are!`);
+    renderCurrentPage();
+  } else {
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Put at least one toy in your basket first!</span>`;
+    }
+  }
+}
+
+function chooseToyReply(isGood, btn) {
+  if (isGood) {
+    appState.toyDialogueStep = 1;
+    addStar(1);
+    speakText(`I want two balls, please. How much is it? They cost four dollars. Here you are!`);
+    renderCurrentPage();
+    saveAppState();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+  }
+}
+
+// Tower Handlers
+function setTowerTab(t) {
+  appState.towerTab = t;
+  renderCurrentPage();
+  saveAppState();
+}
+
+function answerTowerMissing(n, btn) {
+  const fb = document.getElementById(`tower-a-fb`);
+  if (n === 16) {
+    appState.towerMissingAns = `16`;
+    addStar(1);
+    playSuccessFanfare();
+    speakText(`Sixteen! Fourteen, fifteen, sixteen, seventeen, eighteen.`);
+    renderCurrentPage();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Let us count again: 14, 15, ..., 17!</span>`;
+    }
+  }
+}
+
+function adjustTensOnes(which, delta) {
+  if (which === `tens`) {
+    appState.towerTens = Math.max(2, Math.min(5, appState.towerTens + delta));
+    if (appState.towerTens === 5) appState.towerOnes = 0;
+  } else {
+    const maxOnes = appState.towerTens === 5 ? 0 : 9;
+    appState.towerOnes = Math.max(0, Math.min(maxOnes, appState.towerOnes + delta));
+  }
+  playTone(587.33, 0.1);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function checkTowerTreasure(n, btn) {
+  const fb = document.getElementById(`tower-c-fb`);
+  if (n === 75) {
+    awardSticker(`tower`, 8);
+    speakText(`Seventy-five! You found the Clock Tower treasure!`);
+    renderCurrentPage();
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>That is ${n}. Try finding seventy-five (75)!</span>`;
+    }
+  }
+}
+
+function checkTowerSort(isCorrect, btn) {
+  const fb = document.getElementById(`tower-sort-fb`);
+  if (isCorrect) {
+    if (btn) btn.classList.add(`is-correct`);
+    addStar(1);
+    playSuccessFanfare();
+    speakText(`Fifty-two, sixty-seven, eighty-four, one hundred!`);
+    if (fb) {
+      fb.className = `feedback-banner is-success`;
+      fb.innerHTML = `<span>You got it! 52 &rarr; 67 &rarr; 84 &rarr; 100!</span>`;
+    }
+  } else {
+    if (btn) btn.classList.add(`is-wrong`);
+    playGentleTrySound();
+    if (fb) {
+      fb.className = `feedback-banner is-try`;
+      fb.innerHTML = `<span>Look for the smallest number first: 52!</span>`;
+    }
+  }
+}
+
+// Page 9 Real-Life Missions Handlers
+function updateUserAge(val) {
+  appState.userAge = Number(val) || 8;
+  renderCurrentPage();
+  saveAppState();
+}
+
+function setRoutine(idx) {
+  appState.routineIdx = idx;
+  const phrases = [`Wake up at 6 o'clock.`, `Go to school at 7 o'clock.`, `Have lunch at 12 o'clock.`];
+  speakText(phrases[idx] || phrases[0]);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function updateFamilyCount(val) {
+  appState.familyCount = Math.max(1, Math.min(20, Number(val) || 1));
+  saveAppState();
+}
+
+function advanceChat() {
+  if (appState.chatStep === 0) {
+    appState.chatStep = 1;
+    addStar(1);
+    speakText(`Sure! Here you are! Can I buy two apples?`);
+    renderCurrentPage();
+    saveAppState();
+  } else {
+    speakText(`Hi! How many apples do you have? I have five apples. Can I buy two apples? Sure!`);
+  }
+}
+
+function adjustMyList(key, delta) {
+  appState.myShopList[key] = Math.max(0, Math.min(10, (appState.myShopList[key] || 0) + delta));
+  playTone(523.25, 0.1);
+  renderCurrentPage();
+  saveAppState();
+}
+
+function handleResetProgress(btn) {
+  if (!btn) return;
+  if (btn.dataset.armed !== `true`) {
+    btn.dataset.armed = `true`;
+    btn.innerHTML = `<span>Click again to confirm reset</span>`;
+    return;
+  }
+  appState = {
+    currentPage: 0,
+    companion: `lily`,
+    soundEnabled: true,
+    stars: 0,
+    stickers: [],
+    completedPages: [],
+    gardenSelectedNum: 5,
+    gardenTappedTokens: 0,
+    gardenMissionIdx: 0,
+    gardenMissionTapped: [],
+    marketSelectedIdx: 0,
+    marketBasketTapped: 0,
+    marketCompareAnswered: false,
+    bakeryCart: { cookie: 0, bread: 0, donut: 0, milk: 0, cake: 0 },
+    bakeryDone: false,
+    farmActiveAnimal: `cow`,
+    farmAnsweredCount: false,
+    farmAnsweredCompare: false,
+    classMissionIdx: 0,
+    classFoundIds: [],
+    realChairs: `4`,
+    toyDialogueStep: 0,
+    toyBasket: {},
+    toyBudgetDone: false,
+    towerTab: `A`,
+    towerMissingAns: ``,
+    towerTens: 3,
+    towerOnes: 5,
+    towerSortOrder: [84, 52, 100, 67],
+    towerTargetNum: 75,
+    userAge: 8,
+    routineIdx: 0,
+    familyCount: 4,
+    chatStep: 0,
+    myShopList: { apples: 2, bananas: 3, milk: 1 }
+  };
+  saveAppState();
+  renderCurrentPage();
+}
+
+function downloadCertificate() {
+  const certText = [
+    `================================================`,
+    `   THE WONDERFUL WORLD OF NUMBERS - CERTIFICATE`,
+    `================================================`,
+    `Explorer Companion: ${getCompanionName()}`,
+    `Learner Age: ${appState.userAge} years old`,
+    `Stars Earned: ${appState.stars}`,
+    `Town Stickers Collected: ${appState.stickers.length} / 7`,
+    `Stickers: ${appState.stickers.length ? appState.stickers.join(`, `) : `Just getting started!`}`,
+    `------------------------------------------------`,
+    `Awarded for exploring numbers 1-100 in English!`,
+    `================================================`
+  ].join(`\n`);
+
+  if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+    window.notebookAppApi.triggerFileDownload({
+      content: certText,
+      contentType: `text/plain`,
+      encoding: `UTF-8`,
+      filename: `number-town-certificate.txt`
+    });
+  }
+}
+
+// =========================================================================
+// 8. INITIALIZATION
+// =========================================================================
+async function initStorybook() {
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+      const saved = await window.notebookAppApi.getAppState();
+      if (saved && typeof saved === `object`) {
+        appState = Object.assign({}, appState, saved);
+      }
+    }
+  } catch (e) {}
+
+  renderCurrentPage();
+
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+      window.notebookAppApi.notifyAppReady();
+    }
+  } catch (e) {}
+}
+
+document.addEventListener(`DOMContentLoaded`, initStorybook);
+</script>
+</body>
+</html>
+Menampilkan NUMBER COUNTING.html.
